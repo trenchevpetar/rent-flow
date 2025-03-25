@@ -1,10 +1,11 @@
-<script setup lang="ts">
-</script>
-
 <template>
-  <button class="btn">Button</button>
+  <TheHeader />
+  <DefaultLayout>
+    <RouterView />
+  </DefaultLayout>
 </template>
 
-<style scoped>
-
-</style>
+<script setup lang="ts">
+import TheHeader from './shared/components/TheHeader/TheHeader.vue';
+import DefaultLayout from './layouts/DefaultLayout.vue';
+</script>
