@@ -11,4 +11,8 @@ export const routes = [
       requiresAuth: true
     }
   },
+  {
+    path: '/property-details/:id',
+    component: () => import('../pages/PropertyDetailsPage.vue'),
+  }
 ]

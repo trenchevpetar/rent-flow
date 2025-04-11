@@ -17,7 +17,7 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
 
-const model = defineModel({ type: String, default: '' })
+const model = defineModel<string | number>({ type: [String, Number], default: '' })
 
 const props = defineProps({
   id: {

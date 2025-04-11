@@ -1,12 +1,25 @@
 import { account } from '../../../shared/utils/api.ts';
+import { useAuthStore } from '../stores/useAuthStore.ts';
 
 export async function login (email: string, password: string) {
-  await account.createEmailPasswordSession(email, password);
+  const authStore = useAuthStore();
+
+  try {
+    await account.createEmailPasswordSession(email, password);
+    const user = await account.get();
+    authStore.setCurrentUser(user)
+
+  } catch (err) {
+    console.log(err, 'login failed');
+  }
 }
 
 export async function logout () {
+  const authStore = useAuthStore();
+
   try {
     await account.deleteSession('current');
+    authStore.setCurrentUser(null);
     return true;
   } catch (error) {
     console.error('Logout failed:', error);
