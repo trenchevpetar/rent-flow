@@ -20,19 +20,21 @@ export async function addProperty (property: Property) {
 
 export async function getPropertiesByOwnerId () {
   const authStore = useAuthStore();
-  const ownerId = authStore.currentUser.$id;
+  const ownerId = authStore.currentUser?.$id;
 
-  try {
-    const response = await databases.listDocuments(
-      CONFIG.DATABASE_ID,
-      CONFIG.COLLECTIONS.PROPERTIES,
-      [
-        Query.equal('ownerId', ownerId)
-      ]
-    )
+  if (ownerId) {
+    try {
+      const response = await databases.listDocuments(
+        CONFIG.DATABASE_ID,
+        CONFIG.COLLECTIONS.PROPERTIES,
+        [
+          Query.equal('ownerId', ownerId)
+        ]
+      )
 
-    return response.documents;
-  } catch (err) {
-    console.log('error getting properties by owner id', err);
+      return response.documents;
+    } catch (err) {
+      console.log('error getting properties by owner id', err);
+    }
   }
 }

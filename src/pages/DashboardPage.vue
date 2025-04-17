@@ -13,7 +13,7 @@
     </TheColumn>
   </TheGrid>
 
-  <PropertyCards />
+  <ListProperties />
 
   <TheModal
     title="Add Property"
@@ -26,7 +26,7 @@
 <script lang="ts" setup>
 import TheGrid from '../layouts/Grid/TheGrid.vue';
 import TheColumn from '../layouts/Grid/TheColumn.vue';
-import PropertyCards from '../features/AddProperty/components/PropertyCards.vue';
+import ListProperties from '../features/ListProperties/components/ListProperties.vue';
 
 import AddPropertyForm from '../features/AddProperty/components/AddPropertyForm.vue';
 

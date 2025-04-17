@@ -61,9 +61,11 @@ import type { Property } from '../types/property.ts';
 
 import { useAuthStore } from '../../Login/stores/useAuthStore.ts';
 
-import { addProperty } from '../services/property.service.ts';
+import { addProperty, getPropertiesByOwnerId } from '../services/property.service.ts';
+import { usePropertyStore } from '../stores/usePropertyStore.ts';
 
 const authStore = useAuthStore()
+const propertyStore = usePropertyStore()
 const formValues = ref<Property>({
   name: '',
   location: '',
@@ -73,10 +75,12 @@ const formValues = ref<Property>({
 const isLoading = ref(false);
 
 const onAddProperty = async () => {
-  const data = await addProperty({
+  await addProperty({
     ...formValues.value,
     ...(authStore.currentUser?.$id ? { ownerId: authStore.currentUser.$id } : {})
   });
-  console.log(data);
+
+  const properties = await getPropertiesByOwnerId()
+  propertyStore.saveProperties(properties);
 }
 </script>

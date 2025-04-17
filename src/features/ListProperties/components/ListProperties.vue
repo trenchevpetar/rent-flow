@@ -2,9 +2,9 @@
   <h1 class="title text-2xl">
     Properties
   </h1>
-
+  <TheSpinner :is-loading="isPending" />
   <div
-    v-for="property in propertyStore.properties"
+    v-for="property in properties"
     :key="property.$id"
     class="card bg-base-100 w-96 shadow-sm"
   >
@@ -27,12 +27,16 @@
       </div>
     </div>
   </div>
-
-  <pre>{{ propertyStore.properties }}</pre>
 </template>
 
 <script lang="ts" setup>
-import { usePropertyStore } from '../stores/usePropertyStore.ts';
+import TheSpinner from '../../../shared/components/TheSpinner/TheSpinner.vue';
+import { getPropertiesByOwnerId } from '../../AddProperty/services/property.service.ts';
+import { useQuery } from '@tanstack/vue-query';
 
-const propertyStore = usePropertyStore()
+const { data: properties, isPending } = useQuery({
+  queryKey: ['ownerId'],
+  queryFn: getPropertiesByOwnerId,
+  staleTime: 1000 * 60 * 5
+})
 </script>
