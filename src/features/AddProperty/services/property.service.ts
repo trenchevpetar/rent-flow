@@ -6,12 +6,18 @@ import { ID, Query } from 'appwrite'
 import { useAuthStore } from '../../Login/stores/useAuthStore.ts';
 
 export async function addProperty (property: Property) {
+  const authStore = useAuthStore();
+  const ownerId = authStore.currentUser?.$id;
+
   try {
     return await databases.createDocument(
       CONFIG.DATABASE_ID,
       CONFIG.COLLECTIONS.PROPERTIES,
       ID.unique(),
-      property
+      {
+        ...property,
+        ownerId: ownerId
+      }
     );
   } catch (err) {
     console.log(err);

@@ -57,7 +57,7 @@ defineProps({
   }
 })
 
-const modalRef = ref(null)
+const modalRef = ref<HTMLDialogElement | null>(null);
 
 const modelValue = defineModel({ type: Boolean, default: false })
 watch(modelValue, (newVal) => {

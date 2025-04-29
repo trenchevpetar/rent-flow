@@ -10,7 +10,7 @@ export const useAuthStore = defineStore('auth', () => {
     isLoggedIn.value = value
   }
 
-  function setCurrentUser (user: Models.User<Models.Preferences>) {
+  function setCurrentUser (user: Models.User<Models.Preferences> | null) {
     currentUser.value = user;
   }
 

@@ -21,11 +21,11 @@
       </div>
       <div>
         <div
-          v-if="expenseCategories[expense.category]?.imageUrl"
+          v-if="expenseCategories[expense.category as keyof typeof expenseCategories]?.imageUrl"
           class="size-10 rounded-box flex items-center justify-center"
         >
           <img
-            :src="expenseCategories[expense.category].imageUrl"
+            :src="expenseCategories[expense.category as keyof typeof expenseCategories].imageUrl"
           >
         </div>
         <div

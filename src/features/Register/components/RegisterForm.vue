@@ -63,6 +63,6 @@ const formValues = ref<User>({
 
 const onRegister = async () => {
   const { email, password, name, phone } = formValues.value;
-  await register(email, password, name, phone);
+  await register(email, password, name, phone as string);
 }
 </script>

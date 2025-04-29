@@ -45,7 +45,7 @@
       </div>
     </fieldset>
   </form>
-  <TheSpinner :is-loading="isLoading" />
+  <TheSpinner :is-loading="isPending" />
 </template>
 
 <script lang="ts" setup>
@@ -56,28 +56,25 @@ import TheSpinner from '../../../shared/components/TheSpinner/TheSpinner.vue';
 
 import type { Property } from '../types/property.ts';
 
-import { useAuthStore } from '../../Login/stores/useAuthStore.ts';
+const queryClient = useQueryClient();
+import { addProperty } from '../services/property.service.ts';
+import { useMutation, useQueryClient } from '@tanstack/vue-query';
 
-import { addProperty, getPropertiesByOwnerId } from '../services/property.service.ts';
-import { usePropertyStore } from '../stores/usePropertyStore.ts';
-
-const authStore = useAuthStore()
-const propertyStore = usePropertyStore()
 const formValues = ref<Property>({
   name: '',
   location: '',
   ownerId: '',
   units: 0
 })
-const isLoading = ref(false);
 
-const onAddProperty = async () => {
-  await addProperty({
-    ...formValues.value,
-    ...(authStore.currentUser?.$id ? { ownerId: authStore.currentUser.$id } : {})
-  });
+const { mutate: addPropertyMutated, isPending } = useMutation({
+  mutationFn: addProperty,
+  onSuccess: () => {
+    queryClient.invalidateQueries({ queryKey: ['ownerId' ] })
+  }
+})
 
-  const properties = await getPropertiesByOwnerId()
-  propertyStore.saveProperties(properties);
+const onAddProperty = () => {
+  addPropertyMutated(formValues.value)
 }
 </script>
