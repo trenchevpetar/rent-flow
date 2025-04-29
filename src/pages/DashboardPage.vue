@@ -1,7 +1,9 @@
 <template>
   <TheGrid>
     <TheColumn :size="6">
-      <h1>Dashboard</h1>
+      <h1 class="title text-2xl">
+        Dashboard
+      </h1>
     </TheColumn>
     <TheColumn :size="6">
       <button
@@ -12,6 +14,8 @@
       </button>
     </TheColumn>
   </TheGrid>
+
+  <div class="divider divider-warning" />
 
   <ListProperties />
 

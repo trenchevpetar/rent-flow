@@ -4,9 +4,6 @@
     class="flex justify-center align-center items-center"
   >
     <fieldset class="fieldset w-full">
-      <pre>
-        {{ authStore.currentUser }}
-      </pre>
       <InputField
         v-model="formValues.name"
         label="Name"

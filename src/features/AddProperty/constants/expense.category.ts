@@ -6,6 +6,12 @@ export type expenseCategory = {
 }
 
 export const expenseCategories = {
+  DEFAULT: <expenseCategory> {
+    abbr: 'RENT',
+    label: 'Rent',
+    value: 'RENT',
+    imageUrl: ''
+  },
   EVN: <expenseCategory> {
     abbr: 'EVN',
     label: 'EVN Group Macedonia',
@@ -17,6 +23,18 @@ export const expenseCategories = {
     label: 'JP Vodovod',
     value: 'VODOVOD',
     imageUrl: 'https://vodovod-skopje.com.mk/images/logo_voda.png'
+  },
+  ESM: <expenseCategory> {
+    abbr: 'ESM',
+    label: 'ESM Snabduvanje so toplina',
+    value: 'ESM',
+    imageUrl: 'https://esm-snabduvanje.mk/wp-content/uploads/2022/12/logo_esm_privremeno.png'
+  },
+  URBAN: <expenseCategory> {
+    abbr: 'URBAN',
+    label: 'Urban Komfort',
+    value: 'URBAN',
+    imageUrl: '',
   }
 }
 
