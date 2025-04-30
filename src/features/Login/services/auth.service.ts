@@ -5,8 +5,10 @@ export async function login (email: string, password: string) {
   const authStore = useAuthStore();
 
   try {
-    await account.createEmailPasswordSession(email, password);
+    const session = await account.createEmailPasswordSession(email, password);
+    console.log(session);
     const user = await account.get();
+    console.log(user);
     authStore.setCurrentUser(user)
 
   } catch (err) {
