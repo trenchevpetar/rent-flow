@@ -25,16 +25,22 @@ import TheSpinner from '../TheSpinner/TheSpinner.vue';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '../../../features/Login/stores/useAuthStore.ts';
+import { useMutation } from '@tanstack/vue-query';
 
 const router = useRouter()
 const authStore = useAuthStore()
 const isLoading = ref(false)
 
+const logoutMutation = useMutation({
+  mutationFn: () => logout(),
+  onSuccess: () => {
+    logout()
+    authStore.setLoggedIn(false);
+    router.push('/')
+  }
+})
+
 const onLogout = async () => {
-  isLoading.value = true;
-  await logout()
-  authStore.setLoggedIn(false);
-  await router.push('/')
-  isLoading.value = false;
+  logoutMutation.mutate()
 }
 </script>

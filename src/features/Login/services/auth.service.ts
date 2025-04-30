@@ -11,6 +11,7 @@ export async function login (email: string, password: string) {
 
   } catch (err) {
     console.log(err, 'login failed');
+    throw err;
   }
 }
 
@@ -23,6 +24,6 @@ export async function logout () {
     return true;
   } catch (error) {
     console.error('Logout failed:', error);
-    return false;
+    throw error;
   }
 }

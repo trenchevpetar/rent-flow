@@ -50,6 +50,7 @@ import { login } from '../services/auth.service.ts';
 import type { Form } from '../types/form.ts';
 
 import { useAuthStore } from '../stores/useAuthStore.ts';
+import { useMutation } from '@tanstack/vue-query';
 import TheSpinner from '../../../shared/components/TheSpinner/TheSpinner.vue';
 
 const authStore = useAuthStore()
@@ -60,18 +61,28 @@ const formValues = ref<Form>({
 })
 const isLoading = ref(false)
 
-const onLogin = async () => {
-  isLoading.value = true;
-  const { email, password } = formValues.value;
-  try {
-    await login(email, password);
+const loginMutation = useMutation({
+  mutationFn: (data: { email: string; password: string }) => login(data.email, data.password),
+  onMutate: () => {
+    isLoading.value = true;
+  },
+  onSuccess: (session) => {
     authStore.setLoggedIn(true);
-    await router.push('/dashboard')
-  } catch (err) {
-    console.log(err);
-    authStore.setLoggedIn(false)
-  } finally {
-    isLoading.value = false
+    router.push('/dashboard');
+    isLoading.value = false;
+    console.log('Logged in!', session)
+  },
+  onError: (error) => {
+    authStore.setLoggedIn(false);
+    router.push('/');
+    isLoading.value = false;
+    console.error('Login failed:', error)
   }
+})
+
+const onLogin = async () => {
+  loginMutation.mutate({
+    ...formValues.value
+  })
 }
 </script>
