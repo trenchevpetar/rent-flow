@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
-import type { Property } from '../types/property.ts';
-import type { Expenses } from '../types/expenses.ts';
+import type { Expenses } from '@/features/AddProperty/types/expenses.ts';
+import type { Property } from '@/features/AddProperty/types/property.ts';
 
 export const usePropertyStore = defineStore('property', () => {
   const properties = ref<Property[]>([])

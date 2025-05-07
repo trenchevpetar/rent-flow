@@ -49,27 +49,23 @@
 </template>
 
 <script lang="ts" setup>
+import { useMutation, useQueryClient } from '@tanstack/vue-query';
 import { computed, ref } from 'vue';
-
-import type { Expenses } from '../types/expenses.ts';
-
 import { useRoute } from 'vue-router';
 
-import { addExpenseToProperty } from '../services/expenses.service.ts';
+import { expenseCategoriesForSelect } from '@/features/AddProperty/constants/expense.category.ts';
+import { addExpenseToProperty } from '@/features/AddProperty/services/expenses.service.ts';
+import type { UpdatableExpense } from '@/features/AddProperty/types/expenses.ts';
+import InputDate from '@/shared/components/InputDate/InputDate.vue';
+import InputField from '@/shared/components/InputField/InputField.vue';
+import InputSelect from '@/shared/components/InputSelect/InputSelect.vue';
+import InputTextarea from '@/shared/components/InputTextarea/InputTextarea.vue';
+import TheSpinner from '@/shared/components/TheSpinner/TheSpinner.vue';
 
-import { expenseCategoriesForSelect } from '../constants/expense.category.ts';
-
-import { useMutation, useQueryClient } from '@tanstack/vue-query';
-
-import InputField from '../../../shared/components/InputField/InputField.vue';
-import InputSelect from '../../../shared/components/InputSelect/InputSelect.vue';
-import InputTextarea from '../../../shared/components/InputTextarea/InputTextarea.vue';
-import InputDate from '../../../shared/components/InputDate/InputDate.vue';
-import TheSpinner from '../../../shared/components/TheSpinner/TheSpinner.vue';
-
+const emit = defineEmits(['on-add-expense'])
 const route = useRoute()
 const queryClient = useQueryClient();
-const formValues = ref<Expenses>({
+const formValues = ref<UpdatableExpense>({
   propertyId: '',
   category: 'Expense type',
   amount: 0,
@@ -84,6 +80,7 @@ const { mutate: addExpense, isPending } = useMutation({
   mutationFn: addExpenseToProperty,
   onSuccess: () => {
     queryClient.invalidateQueries({ queryKey: ['expenses' ] })
+    emit('on-add-expense')
   }
 })
 

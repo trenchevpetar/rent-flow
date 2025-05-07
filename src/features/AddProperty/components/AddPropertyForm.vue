@@ -49,17 +49,17 @@
 </template>
 
 <script lang="ts" setup>
+import { useMutation, useQueryClient } from '@tanstack/vue-query';
 import { ref } from 'vue';
 
-import InputField from '../../../shared/components/InputField/InputField.vue';
-import TheSpinner from '../../../shared/components/TheSpinner/TheSpinner.vue';
-
-import type { Property } from '../types/property.ts';
+import { addProperty } from '@/features/AddProperty/services/property.service.ts';
+import type { Property } from '@/features/AddProperty/types/property.ts';
+import InputField from '@/shared/components/InputField/InputField.vue';
+import TheSpinner from '@/shared/components/TheSpinner/TheSpinner.vue';
 
 const queryClient = useQueryClient();
-import { addProperty } from '../services/property.service.ts';
-import { useMutation, useQueryClient } from '@tanstack/vue-query';
 
+const emit = defineEmits(['on-add-property'])
 const formValues = ref<Property>({
   name: '',
   location: '',
@@ -76,5 +76,6 @@ const { mutate: addPropertyMutated, isPending } = useMutation({
 
 const onAddProperty = () => {
   addPropertyMutated(formValues.value)
+  emit('on-add-property')
 }
 </script>

@@ -1,6 +1,7 @@
-import { account, databases } from '../../../shared/utils/api.ts';
 import { ID } from 'appwrite'
-import { CONFIG } from '../../../config/config.ts';
+
+import { CONFIG } from '@/config/config.ts';
+import { account, databases } from '@/shared/utils/api.ts';
 
 export async function register (email: string, password: string, name: string, phone: string) {
   const user = await account.create(ID.unique(), email, password, name);

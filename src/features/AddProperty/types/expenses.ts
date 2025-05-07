@@ -1,11 +1,11 @@
 import type { Models } from 'appwrite';
 
-export type Expenses  = Partial<Models.Document> & {
+export type Expenses  = Models.Document & {
   propertyId: string;
   category: string;
   amount: number;
   description: string;
-  date: Date;
+  date: string;
   isPaid: boolean;
 }
 

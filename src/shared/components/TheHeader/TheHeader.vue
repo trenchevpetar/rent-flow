@@ -20,12 +20,15 @@
 </template>
 
 <script lang="ts" setup>
-import { logout } from '../../../features/Login/services/auth.service.ts';
-import TheSpinner from '../TheSpinner/TheSpinner.vue';
+import { useMutation } from '@tanstack/vue-query';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useAuthStore } from '../../../features/Login/stores/useAuthStore.ts';
-import { useMutation } from '@tanstack/vue-query';
+
+import { logout } from '@/features/Login/services/auth.service.ts';
+import { useAuthStore } from '@/features/Login/stores/useAuthStore.ts';
+import TheSpinner from '@/shared/components/TheSpinner/TheSpinner.vue';
+
+
 
 const router = useRouter()
 const authStore = useAuthStore()

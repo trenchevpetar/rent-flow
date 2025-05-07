@@ -24,22 +24,24 @@
     title="Add expense to property"
     v-model="isModalActive"
   >
-    <AddExpenseToPropertyForm />
+    <AddExpenseToPropertyForm @on-add-expense="onExpenseAdded" />
   </TheModal>
 </template>
 
 <script lang="ts" setup>
-import TheGrid from '../layouts/Grid/TheGrid.vue';
-import TheColumn from '../layouts/Grid/TheColumn.vue';
-import TheModal from '../shared/components/TheModal/TheModal.vue';
-import AddExpenseToPropertyForm from '../features/AddProperty/components/AddExpenseToPropertyForm.vue';
-import ListPropertyExpenses from '../features/ListProperties/components/ListPropertyExpenses.vue';
-
-import { useAuthStore } from '../features/Login/stores/useAuthStore.ts';
 import { ref } from 'vue';
+
+import AddExpenseToPropertyForm from '@/features/AddProperty/components/AddExpenseToPropertyForm.vue';
+import ListPropertyExpenses from '@/features/ListProperties/components/ListPropertyExpenses.vue';
+import { useAuthStore } from '@/features/Login/stores/useAuthStore.ts';
+import TheColumn from '@/layouts/Grid/TheColumn.vue';
+import TheGrid from '@/layouts/Grid/TheGrid.vue';
+import TheModal from '@/shared/components/TheModal/TheModal.vue';
+
 
 const authStore = useAuthStore();
 
 const isModalActive = ref(false);
 const onAddExpense = () => isModalActive.value = true
+const onExpenseAdded = () => isModalActive.value = false
 </script>

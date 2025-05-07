@@ -1,9 +1,9 @@
-import { databases } from '../../../shared/utils/api.ts';
-import type { Property } from '../types/property.ts';
-import { CONFIG } from '../../../config/config.ts';
 import { ID, Query } from 'appwrite'
 
-import { useAuthStore } from '../../Login/stores/useAuthStore.ts';
+import { CONFIG } from '@/config/config.ts';
+import type { Property } from '@/features/AddProperty/types/property.ts';
+import { useAuthStore } from '@/features/Login/stores/useAuthStore.ts';
+import { databases } from '@/shared/utils/api.ts';
 
 export async function addProperty (property: Property) {
   const authStore = useAuthStore();

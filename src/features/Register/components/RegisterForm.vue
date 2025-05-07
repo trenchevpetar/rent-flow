@@ -47,11 +47,10 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-import InputField from '../../../shared/components/InputField/InputField.vue';
 
-import { register } from '../services/register.service.ts';
-
-import type { User } from '../types/user.ts';
+import { register } from '@/features/Register/services/register.service.ts';
+import type { User } from '@/features/Register/types/user.ts';
+import InputField from '@/shared/components/InputField/InputField.vue';
 
 const formValues = ref<User>({
   name: '',

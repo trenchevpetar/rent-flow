@@ -40,18 +40,16 @@
 </template>
 
 <script setup lang="ts">
+import { useMutation } from '@tanstack/vue-query';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
-import InputField from '../../../shared/components/InputField/InputField.vue';
 
-import { login } from '../services/auth.service.ts';
-
-import type { Form } from '../types/form.ts';
-
-import { useAuthStore } from '../stores/useAuthStore.ts';
-import { useMutation } from '@tanstack/vue-query';
-import TheSpinner from '../../../shared/components/TheSpinner/TheSpinner.vue';
+import { login } from '@/features/Login/services/auth.service.ts';
+import { useAuthStore } from '@/features/Login/stores/useAuthStore.ts';
+import type { Form } from '@/features/Login/types/form.ts';
+import InputField from '@/shared/components/InputField/InputField.vue';
+import TheSpinner from '@/shared/components/TheSpinner/TheSpinner.vue';
 
 const authStore = useAuthStore()
 const router = useRouter()

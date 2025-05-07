@@ -1,5 +1,5 @@
-import { account } from '../../../shared/utils/api.ts';
-import { useAuthStore } from '../stores/useAuthStore.ts';
+import { useAuthStore } from '@/features/Login/stores/useAuthStore.ts';
+import { account } from '@/shared/utils/api.ts';
 
 export async function login (email: string, password: string) {
   const authStore = useAuthStore();

@@ -1,6 +1,6 @@
+import type { Models } from 'appwrite';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-import type { Models } from 'appwrite';
 
 export const useAuthStore = defineStore('auth', () => {
   const isLoggedIn = ref(false);

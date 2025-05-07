@@ -1,10 +1,11 @@
-import { databases } from '../../../shared/utils/api.ts';
-import { CONFIG } from '../../../config/config.ts';
 import { ID, Query } from 'appwrite';
-import type { Expenses, UpdatableExpense } from '../types/expenses.ts';
-import { stripSystemFields } from '../../../shared/utils/strip-system-fields.ts';
 
-export async function addExpenseToProperty (expense: Expenses) {
+import { CONFIG } from '@/config/config.ts';
+import type { Expenses, UpdatableExpense } from '@/features/AddProperty/types/expenses.ts';
+import { databases } from '@/shared/utils/api.ts';
+import { stripSystemFields } from '@/shared/utils/strip-system-fields.ts';
+
+export async function addExpenseToProperty (expense: UpdatableExpense) {
   try {
     return await databases.createDocument(
       CONFIG.DATABASE_ID,
@@ -18,9 +19,9 @@ export async function addExpenseToProperty (expense: Expenses) {
   }
 }
 
-export async function getExpensesForProperty (propertyId: string) {
+export async function getExpensesForProperty (propertyId: string): Promise<Expenses[]> {
   try {
-    const response = await databases.listDocuments(
+    const response = await databases.listDocuments<Expenses>(
       CONFIG.DATABASE_ID,
       CONFIG.COLLECTIONS.EXPENSES,
       [

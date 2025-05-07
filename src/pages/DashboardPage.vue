@@ -23,20 +23,21 @@
     title="Add Property"
     v-model="isModalActive"
   >
-    <AddPropertyForm />
+    <AddPropertyForm @on-add-property="onPropertyAdded" />
   </TheModal>
 </template>
 
 <script lang="ts" setup>
-import TheGrid from '../layouts/Grid/TheGrid.vue';
-import TheColumn from '../layouts/Grid/TheColumn.vue';
-import ListProperties from '../features/ListProperties/components/ListProperties.vue';
-
-import AddPropertyForm from '../features/AddProperty/components/AddPropertyForm.vue';
-
-import TheModal from '../shared/components/TheModal/TheModal.vue';
 import { ref } from 'vue';
+
+import AddPropertyForm from '@/features/AddProperty/components/AddPropertyForm.vue';
+import ListProperties from '@/features/ListProperties/components/ListProperties.vue';
+import TheColumn from '@/layouts/Grid/TheColumn.vue';
+import TheGrid from '@/layouts/Grid/TheGrid.vue';
+import TheModal from '@/shared/components/TheModal/TheModal.vue';
+
 
 const isModalActive = ref(false)
 const onAddProperty = () => isModalActive.value = true;
+const onPropertyAdded = () => isModalActive.value = false;
 </script>
