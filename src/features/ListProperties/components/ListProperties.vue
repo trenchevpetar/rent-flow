@@ -1,6 +1,6 @@
 <template>
   <h1 class="title text-2xl mb-4">
-    Properties
+    {{ t('properties.add') }}
   </h1>
   <TheSpinner :is-loading="isPending" />
   <TheGrid class="gap-4">
@@ -25,7 +25,7 @@
               :to="`/property-details/${property.$id}`"
               class="btn btn-primary"
             >
-              Check expenses
+              {{ t('expenses.check') }}
             </RouterLink>
           </div>
         </div>
@@ -36,11 +36,15 @@
 
 <script lang="ts" setup>
 import { useQuery } from '@tanstack/vue-query';
+import { useI18n } from 'vue-i18n';
 
 import { getPropertiesByOwnerId } from '@/features/AddProperty/services/property.service.ts';
+import type { MessagesSchema } from '@/i18n/messages.ts';
 import TheColumn from '@/layouts/Grid/TheColumn.vue';
 import TheGrid from '@/layouts/Grid/TheGrid.vue';
 import TheSpinner from '@/shared/components/TheSpinner/TheSpinner.vue';
+
+const { t } = useI18n<{ messages: MessagesSchema }>()
 
 const { data: properties, isPending } = useQuery({
   queryKey: ['ownerId'],

@@ -1,5 +1,5 @@
 <template>
-  <div class="navbar bg-base-100 shadow-sm sticky top-0 z-50">
+  <div class="navbar bg-base-100 shadow-sm sticky top-0 z-50 gap-2">
     <div class="flex-1">
       <RouterLink
         to="/"
@@ -8,6 +8,7 @@
         Rent Flow
       </RouterLink>
     </div>
+    <LanguageSwitcher />
     <button
       v-if="authStore.isLoggedIn"
       @click="onLogout"
@@ -26,20 +27,18 @@ import { useRouter } from 'vue-router';
 
 import { logout } from '@/features/Login/services/auth.service.ts';
 import { useAuthStore } from '@/features/Login/stores/useAuthStore.ts';
+import LanguageSwitcher from '@/shared/components/LanguageSwitcher/LanguageSwitcher.vue';
 import TheSpinner from '@/shared/components/TheSpinner/TheSpinner.vue';
-
-
 
 const router = useRouter()
 const authStore = useAuthStore()
 const isLoading = ref(false)
 
 const logoutMutation = useMutation({
-  mutationFn: () => logout(),
-  onSuccess: () => {
-    logout()
+  mutationFn: async () => await logout(),
+  onSuccess: async () => {
     authStore.setLoggedIn(false);
-    router.push('/')
+    await router.push('/')
   }
 })
 

@@ -1,10 +1,10 @@
-import globals from 'globals';
 import pluginJs from '@eslint/js';
-import tseslint from 'typescript-eslint';
-import pluginVue from 'eslint-plugin-vue';
 import eslintPluginImport from 'eslint-plugin-import';
 import pathAlias from 'eslint-plugin-path-alias';
+import pluginVue from 'eslint-plugin-vue';
+import globals from 'globals';
 import { resolve } from 'node:path'
+import tseslint from 'typescript-eslint';
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
@@ -34,23 +34,18 @@ export default [
         'error',
         {
           groups: [
-            // Group built-in modules first
             ['builtin', 'external'],
-            // Then group internal modules
             ['internal', 'parent', 'sibling'],
           ],
-          'newlines-between': 'always', // Enforce a newline between each group
+          'newlines-between': 'always',
           alphabetize: {
-            order: 'asc', // Alphabetize imports within each group
+            order: 'asc',
             caseInsensitive: true,
           },
         },
       ],
       'path-alias/no-relative': ['error', {
         paths: {
-          // It's recommended to resolve path alias directories as
-          // relative paths will be resolved relative to cwd. This
-          // may cause unexpected behavior in monorepo setups
           '@': resolve(import.meta.dirname, './src'),
         },
       }],

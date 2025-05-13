@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="isLoading"
-    class="absolute inset-0 flex bg-base-300 bg-opacity-50 justify-center items-center z-50"
+    class="spinner absolute inset-0 flex bg-base-300 bg-opacity-50 justify-center items-center z-50"
   >
     <span
       v-if="isLoading"

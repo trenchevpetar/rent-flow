@@ -1,4 +1,4 @@
-import { computed } from 'vue';
+import { computed, type Ref } from 'vue';
 
 import type { Expenses } from '@/features/AddProperty/types/expenses.ts';
 
@@ -7,9 +7,9 @@ interface GroupedExpense {
   expenses: Record<string, Expenses>
 }
 
-export function useGroupedExpenses (expenses: Expenses[]) {
+export function useGroupedExpenses (expenses: Ref<Expenses[]>) {
   const groupedByMonth = computed<Record<string, GroupedExpense>>(() => {
-    return expenses.reduce((result, expense) => {
+    return expenses.value.reduce((result, expense) => {
       const month = new Date(expense.date).toISOString().slice(0, 7)
 
       if (!result[month]) {
@@ -25,7 +25,5 @@ export function useGroupedExpenses (expenses: Expenses[]) {
     }, {} as Record<string, GroupedExpense>)
   })
 
-  return {
-    groupedByMonth,
-  }
+  return { groupedByMonth }
 }
