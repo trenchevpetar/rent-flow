@@ -5,31 +5,31 @@
   >
     <fieldset class="fieldset w-md border border-base-300 p-4 rounded-box">
       <h1 class="title text-2xl">
-        Register
+        {{ t('register.label') }}
       </h1>
       <InputField
         v-model="formValues.name"
-        label="Name"
-        placeholder="Enter your name"
+        :label="t('register.name')"
+        :placeholder="t('placeholders.register.name')"
       />
 
       <InputField
         v-model="formValues.email"
-        label="Email"
-        placeholder="Enter your email"
+        :label="t('register.email')"
+        :placeholder="t('placeholders.register.email')"
       />
 
       <InputField
         v-model="formValues.password"
-        label="Password"
+        :label="t('register.password')"
         type="password"
-        placeholder="Password"
+        :placeholder="t('placeholders.register.password')"
       />
 
       <InputField
         v-model="formValues.phone"
-        label="Phone"
-        placeholder="Enter your phone number"
+        :label="t('register.phone')"
+        :placeholder="t('placeholders.register.phone')"
       />
 
       <div class="flex w-full justify-end gap-2 mt-2">
@@ -37,7 +37,7 @@
           type="submit"
           class="btn btn-primary"
         >
-          Submit
+          {{ t('register.label') }}
         </button>
       </div>
     </fieldset>
@@ -46,12 +46,14 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-
+import { useI18n } from 'vue-i18n';
 
 import { register } from '@/features/Register/services/register.service.ts';
 import type { User } from '@/features/Register/types/user.ts';
+import type { MessagesSchema } from '@/i18n/messages.ts';
 import InputField from '@/shared/components/InputField/InputField.vue';
 
+const { t } = useI18n<{ messages: MessagesSchema }>()
 const formValues = ref<User>({
   name: '',
   email: '',

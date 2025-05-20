@@ -30,9 +30,4 @@ module.exports = {
 		'2xl:col-span-6', '2xl:col-span-7', '2xl:col-span-8', '2xl:col-span-9', '2xl:col-span-10',
 		'2xl:col-span-11', '2xl:col-span-12',
 	],
-	theme: {
-		extend: {
-			// Custom theme options if you need them
-		},
-	},
 }

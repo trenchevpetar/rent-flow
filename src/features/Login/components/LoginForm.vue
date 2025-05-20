@@ -5,19 +5,19 @@
   >
     <fieldset class="fieldset w-md border border-base-300 p-4 rounded-box">
       <h1 class="title text-2xl">
-        Login
+        {{ t('login.label') }}
       </h1>
       <InputField
         v-model="formValues.email"
-        label="Email"
-        placeholder="Email"
+        :label="t('login.email')"
+        :placeholder="t('placeholders.login.email')"
       />
 
       <InputField
         v-model="formValues.password"
-        label="Password"
+        :label="t('login.password')"
         type="password"
-        placeholder="Password"
+        :placeholder="t('placeholders.login.password')"
       />
 
       <div class="flex w-full justify-end gap-2 mt-2">
@@ -25,13 +25,13 @@
           type="submit"
           class="btn btn-primary"
         >
-          Login
+          {{ t('login.label') }}
         </button>
         <RouterLink
           to="/register"
           class="btn btn-soft"
         >
-          Register
+          {{ t('register.label') }}
         </RouterLink>
       </div>
     </fieldset>
@@ -42,15 +42,17 @@
 <script setup lang="ts">
 import { useMutation } from '@tanstack/vue-query';
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
-
 
 import { login } from '@/features/Login/services/auth.service.ts';
 import { useAuthStore } from '@/features/Login/stores/useAuthStore.ts';
 import type { Form } from '@/features/Login/types/form.ts';
+import type { MessagesSchema } from '@/i18n/messages.ts';
 import InputField from '@/shared/components/InputField/InputField.vue';
 import TheSpinner from '@/shared/components/TheSpinner/TheSpinner.vue';
 
+const { t } = useI18n<{ messages: MessagesSchema }>()
 const authStore = useAuthStore()
 const router = useRouter()
 const formValues = ref<Form>({

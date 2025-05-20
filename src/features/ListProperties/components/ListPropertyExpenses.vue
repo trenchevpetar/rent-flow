@@ -2,10 +2,10 @@
   <ul class="list relative bg-base-100 rounded-box shadow-md">
     <li class="p-4 text-xs opacity-60 tracking-wide">
       <template v-if="expenses && expenses.length">
-        Expenses for this property
+        {{ t('expenses.property') }}
       </template>
       <template v-else>
-        No expenses for this property
+        {{ t('expenses.none') }}
       </template>
     </li>
 
@@ -59,10 +59,10 @@
               <div>{{ expense.amount }} MKD</div>
               <div class="text-xs uppercase font-semibold opacity-60">
                 <template v-if="expense.isPaid">
-                  <div class="status status-success animate-bounce" /> Paid
+                  <div class="status status-success animate-bounce" /> {{ t('payment.paid') }}
                 </template>
                 <template v-else>
-                  <div class="status status-error animate-bounce" /> Pending payment
+                  <div class="status status-error animate-bounce" /> {{ t('payment.pending') }}
                 </template>
               </div>
             </div>
@@ -71,7 +71,7 @@
               <div
                 v-if="!expense.isPaid"
                 class="tooltip tooltip-success"
-                data-tip="Mark as paid"
+                :data-tip="t('actions.markAsPaid')"
               >
                 <button
                   class="btn btn-ghost btn-square"
@@ -82,7 +82,7 @@
               </div>
               <div
                 class="tooltip tooltip-warning"
-                data-tip="Delete"
+                :data-tip="t('actions.delete')"
               >
                 <button
                   class="btn btn-ghost btn-square"
@@ -96,7 +96,7 @@
         </li>
         <li class="list-row">
           <div class="text-4xl font-thin opacity-30 tabular-nums">
-            Total
+            {{ t('payment.total') }}
           </div>
           <div class="list-col-grow flex items-center">
             {{ data.totalAmount }} MKD
@@ -109,6 +109,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import DeleteIcon from '@/assets/icons/DeleteIcon.vue';
 import MarkAsReadIcon from '@/assets/icons/MarkAsReadIcon.vue';
@@ -116,10 +117,12 @@ import { expenseCategories } from '@/features/AddProperty/constants/expense.cate
 import type { Expenses } from '@/features/AddProperty/types/expenses.ts';
 import GroupedPropertyExpenses from '@/features/ListProperties/components/GroupedPropertyExpenses.vue';
 import { useAuthStore } from '@/features/Login/stores/useAuthStore.ts';
+import type { MessagesSchema } from '@/i18n/messages.ts';
 import TheSkeletonCircleContent from '@/shared/components/TheSkeleton/TheSkeletonCircleContent.vue';
 
 const authStore = useAuthStore();
 const activeIndex = ref('0')
+const { t } = useI18n<{ messages: MessagesSchema }>()
 
 defineProps<{
   expenses: Expenses[];

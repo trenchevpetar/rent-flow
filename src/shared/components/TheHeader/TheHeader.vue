@@ -14,7 +14,7 @@
       @click="onLogout"
       class="btn btn-warning"
     >
-      Logout
+      {{ t('logout') }}
     </button>
   </div>
   <TheSpinner :is-loading="isLoading" />
@@ -23,16 +23,19 @@
 <script lang="ts" setup>
 import { useMutation } from '@tanstack/vue-query';
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
 import { logout } from '@/features/Login/services/auth.service.ts';
 import { useAuthStore } from '@/features/Login/stores/useAuthStore.ts';
+import type {MessagesSchema} from "@/i18n/messages.ts";
 import LanguageSwitcher from '@/shared/components/LanguageSwitcher/LanguageSwitcher.vue';
 import TheSpinner from '@/shared/components/TheSpinner/TheSpinner.vue';
 
 const router = useRouter()
 const authStore = useAuthStore()
 const isLoading = ref(false)
+const { t } = useI18n<{ messages: MessagesSchema }>()
 
 const logoutMutation = useMutation({
   mutationFn: async () => await logout(),

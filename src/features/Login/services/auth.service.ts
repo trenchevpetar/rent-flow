@@ -5,7 +5,6 @@ export async function login (email: string, password: string) {
   const authStore = useAuthStore();
 
   try {
-    await account.deleteSession('current');
     await account.createEmailPasswordSession(email, password);
     const user = await account.get();
     authStore.setCurrentUser(user)
