@@ -40,8 +40,7 @@ const enUS = {
     name: 'Name',
     email: 'Email',
     password: 'Password',
-    phone: 'Phone',
-    phonePlaceholder: 'Enter your phone number'
+    phone: 'Phone'
   },
   language: {
     en: 'English',
