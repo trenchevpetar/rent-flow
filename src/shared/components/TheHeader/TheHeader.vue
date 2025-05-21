@@ -28,7 +28,7 @@ import { useRouter } from 'vue-router';
 
 import { logout } from '@/features/Login/services/auth.service.ts';
 import { useAuthStore } from '@/features/Login/stores/useAuthStore.ts';
-import type {MessagesSchema} from "@/i18n/messages.ts";
+import type { MessagesSchema } from '@/i18n/messages.ts';
 import LanguageSwitcher from '@/shared/components/LanguageSwitcher/LanguageSwitcher.vue';
 import TheSpinner from '@/shared/components/TheSpinner/TheSpinner.vue';
 

@@ -28,6 +28,7 @@
           {{ t('login.label') }}
         </button>
         <RouterLink
+          v-if="isRegisterEnabled"
           to="/register"
           class="btn btn-soft"
         >
@@ -45,6 +46,7 @@ import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
+import { useFeatureFlags } from '@/config/feature-flags.ts';
 import { login } from '@/features/Login/services/auth.service.ts';
 import { useAuthStore } from '@/features/Login/stores/useAuthStore.ts';
 import type { Form } from '@/features/Login/types/form.ts';
@@ -52,6 +54,8 @@ import type { MessagesSchema } from '@/i18n/messages.ts';
 import InputField from '@/shared/components/InputField/InputField.vue';
 import TheSpinner from '@/shared/components/TheSpinner/TheSpinner.vue';
 
+const { isFeatureEnabled } = useFeatureFlags()
+const isRegisterEnabled = isFeatureEnabled('register')
 const { t } = useI18n<{ messages: MessagesSchema }>()
 const authStore = useAuthStore()
 const router = useRouter()

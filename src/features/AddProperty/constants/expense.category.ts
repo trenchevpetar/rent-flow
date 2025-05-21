@@ -34,7 +34,13 @@ export const expenseCategories = {
     abbr: 'URBAN',
     label: 'Urban Komfort',
     value: 'URBAN',
-    imageUrl: '',
+    imageUrl: 'https://urban.com.mk/img/logo-urbankonfort.png',
+  },
+  TELEKOM: <expenseCategory> {
+    abbr: 'TELEKOM',
+    label: 'Makedonski Telekom',
+    value: 'TELEKOM',
+    imageUrl: 'https://www.telekom.mk/images/telekom-logo.svg'
   }
 }
 

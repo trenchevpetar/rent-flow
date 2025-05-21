@@ -30,6 +30,7 @@ const activeIndex = defineModel<string>('activeIndex')
 const props = defineProps<{
   expenses: Expenses[];
 }>();
+
 const onChange = (index: string) => {
   activeIndex.value = activeIndex.value === index ? '' : index
 }

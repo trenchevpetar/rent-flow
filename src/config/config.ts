@@ -1,6 +1,7 @@
 export const CONFIG = {
   DATABASE_ID: 'properties-db',
   COLLECTIONS: {
+    FEATURE_FLAGS: 'feature-flags-collection',
     EXPENSES: 'expenses-collection',
     INCOME: 'income-collection',
     AGREEMENTS: 'agreements-collection',

@@ -17,7 +17,7 @@
           </h2>
           <ul>
             <li>
-              Location: {{ property.location }}
+              {{ t('location') }}: {{ property.location }}
             </li>
           </ul>
           <div class="card-actions justify-end">
