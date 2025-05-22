@@ -8,6 +8,7 @@ import i18n from '@/i18n'
 import { router } from '@/router'
 import { databases } from '@/shared/utils/api.ts';
 import pinia from '@/store/global.ts'
+import '@/router/middleware.ts'
 
 const queryClient = new QueryClient()
 
