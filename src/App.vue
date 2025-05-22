@@ -3,7 +3,7 @@
   <DefaultLayout>
     <RouterView />
     <pre>
-      {{ isLoggedIn }}
+      {{ isLoggedIn() }}
     </pre>
   </DefaultLayout>
 </template>
