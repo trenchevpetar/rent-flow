@@ -7,6 +7,8 @@ import { account } from '@/shared/utils/api.ts';
 router.beforeEach(async (to: RouteLocationNormalized, _from: RouteLocationNormalized, next: NavigationGuardNext) => {
   const { isFeatureEnabled } = useFeatureFlags()
 
+  console.log('start middleware');
+
   if (to.meta.requiresAuth) {
     try {
       await account.get();
@@ -18,6 +20,7 @@ router.beforeEach(async (to: RouteLocationNormalized, _from: RouteLocationNormal
   }
 
   if (to.path === '/') {
+    console.log('login page');
     try {
       await account.get();
 
@@ -28,6 +31,7 @@ router.beforeEach(async (to: RouteLocationNormalized, _from: RouteLocationNormal
   }
 
   if (to.meta.requiresFeature) {
+    console.log('feature flags');
     const requiredFlag = to.meta.requiresFeature as string
     if (!isFeatureEnabled(requiredFlag)) {
       return next('/feature-not-available')
