@@ -11,10 +11,10 @@ router.beforeEach(async (to: RouteLocationNormalized, _from: RouteLocationNormal
 
   console.log('start middleware');
 
-  if (to.meta.requiresAuth && !authStore.isLoggedIn) {
-    console.log('requires auth');
-    return next('/')
-  }
+  // if (to.meta.requiresAuth && !authStore.isLoggedIn) {
+  //   console.log('requires auth');
+  //   return next('/')
+  // }
 
   if (to.path === '/') {
     console.log('login page');
