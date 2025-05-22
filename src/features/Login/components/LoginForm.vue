@@ -47,7 +47,6 @@ import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
 import { useFeatureFlags } from '@/config/feature-flags.ts';
-import { login } from '@/features/Login/services/auth.service.ts';
 import { useAuthStore } from '@/features/Login/stores/useAuthStore.ts';
 import type { Form } from '@/features/Login/types/form.ts';
 import type { MessagesSchema } from '@/i18n/messages.ts';
@@ -66,17 +65,15 @@ const formValues = ref<Form>({
 const isLoading = ref(false)
 
 const loginMutation = useMutation({
-  mutationFn: async (data: { email: string; password: string }) => await login(data.email, data.password),
+  mutationFn: async (data: { email: string; password: string }) => await authStore.login(data.email, data.password),
   onMutate: () => {
     isLoading.value = true;
   },
   onSuccess: () => {
-    authStore.setLoggedIn(true);
     router.push('/dashboard');
     isLoading.value = false;
   },
   onError: () => {
-    authStore.setLoggedIn(false);
     router.push('/');
     isLoading.value = false;
   }

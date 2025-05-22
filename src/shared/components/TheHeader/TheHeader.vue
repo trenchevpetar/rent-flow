@@ -26,7 +26,6 @@ import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
-import { logout } from '@/features/Login/services/auth.service.ts';
 import { useAuthStore } from '@/features/Login/stores/useAuthStore.ts';
 import type { MessagesSchema } from '@/i18n/messages.ts';
 import LanguageSwitcher from '@/shared/components/LanguageSwitcher/LanguageSwitcher.vue';
@@ -40,10 +39,9 @@ const { t } = useI18n<{ messages: MessagesSchema }>()
 const logoutMutation = useMutation({
   mutationFn: async () => {
     isLoading.value = true;
-    await logout()
+    await authStore.logout();
   },
   onSuccess: async () => {
-    authStore.setLoggedIn(false);
     isLoading.value = false;
     await router.push('/')
   },

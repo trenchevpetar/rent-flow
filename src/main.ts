@@ -4,11 +4,11 @@ import { createApp } from 'vue'
 import App from '@/App.vue'
 import '@/style.css'
 import { CONFIG } from '@/config/config.ts';
+import { useAuthStore } from '@/features/Login/stores/useAuthStore.ts';
 import i18n from '@/i18n'
 import { router } from '@/router'
 import { databases } from '@/shared/utils/api.ts';
 import pinia from '@/store/global.ts'
-import '@/router/middleware.ts'
 
 const queryClient = new QueryClient()
 
@@ -29,6 +29,9 @@ const queryClient = new QueryClient()
     .use(VueQueryPlugin, { queryClient })
     .use(pinia)
     .use(router)
+
+  const authStore = useAuthStore();
+  await authStore.fetchUser()
 
   await router.isReady()
   app.mount('#app')
