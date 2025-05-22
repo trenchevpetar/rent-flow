@@ -66,21 +66,19 @@ const formValues = ref<Form>({
 const isLoading = ref(false)
 
 const loginMutation = useMutation({
-  mutationFn: (data: { email: string; password: string }) => login(data.email, data.password),
+  mutationFn: async (data: { email: string; password: string }) => await login(data.email, data.password),
   onMutate: () => {
     isLoading.value = true;
   },
-  onSuccess: (session) => {
+  onSuccess: () => {
     authStore.setLoggedIn(true);
     router.push('/dashboard');
     isLoading.value = false;
-    console.log('Logged in!', session)
   },
-  onError: (error) => {
+  onError: () => {
     authStore.setLoggedIn(false);
     router.push('/');
     isLoading.value = false;
-    console.error('Login failed:', error)
   }
 })
 

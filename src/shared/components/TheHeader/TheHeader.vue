@@ -38,10 +38,17 @@ const isLoading = ref(false)
 const { t } = useI18n<{ messages: MessagesSchema }>()
 
 const logoutMutation = useMutation({
-  mutationFn: async () => await logout(),
+  mutationFn: async () => {
+    isLoading.value = true;
+    await logout()
+  },
   onSuccess: async () => {
     authStore.setLoggedIn(false);
+    isLoading.value = false;
     await router.push('/')
+  },
+  onError: () => {
+    isLoading.value = false;
   }
 })
 
