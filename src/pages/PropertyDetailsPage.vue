@@ -6,12 +6,13 @@
       class="content-center"
     >
       <h1 class="title text-2xl">
-        {{ t('expenses.details') }}
+        {{ cachedPropertyByRouteId?.name }}
       </h1>
     </TheColumn>
     <TheColumn
       :size="12"
       :responsive="{ lg: 6 }"
+      class="text-right"
     >
       <button
         v-if="authStore.isLoggedIn"
@@ -45,11 +46,12 @@
 
 <script lang="ts" setup>
 import { useMutation, useQuery, useQueryClient } from '@tanstack/vue-query';
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 
 import AddExpenseToPropertyForm from '@/features/AddProperty/components/AddExpenseToPropertyForm.vue';
+import { useCachedProperties } from '@/features/AddProperty/composables/useCachedProperties.ts';
 import {
   deleteExpense,
   getExpensesForProperty,
@@ -66,6 +68,7 @@ import TheSpinner from '@/shared/components/TheSpinner/TheSpinner.vue';
 
 const authStore = useAuthStore();
 const route = useRoute()
+const { data: cachedProperties } = useCachedProperties()
 
 const { t } = useI18n<{ messages: MessagesSchema }>()
 const isModalActive = ref(false);
@@ -73,6 +76,7 @@ const isModalActive = ref(false);
 const propertyId = computed(() => route.params.id as string)
 const queryClient = useQueryClient();
 const loadingItemId = ref<string | null>(null)
+const cachedPropertyByRouteId = computed(() => cachedProperties.value?.filter((property) => property.$id === propertyId.value)[0])
 
 const { data: expenses, isPending: isGetPending } = useQuery({
   queryKey: ['expenses', propertyId.value],
@@ -108,6 +112,10 @@ const updateMutation = useMutation({
   onSettled: () => {
     loadingItemId.value = null;
   }
+})
+
+onMounted(async () => {
+  cachedProperties.value = await getOrFetchProperties()
 })
 
 const onAddExpense = () => isModalActive.value = true

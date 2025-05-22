@@ -1,11 +1,19 @@
 <template>
   <TheGrid>
-    <TheColumn :size="6">
+    <TheColumn
+      :size="12"
+      :responsive="{ lg: 6 }"
+      class="content-center"
+    >
       <h1 class="title text-2xl">
         {{ t('dashboard') }}
       </h1>
     </TheColumn>
-    <TheColumn :size="6">
+    <TheColumn
+      :size="12"
+      :responsive="{ lg: 6 }"
+      class="text-right"
+    >
       <button
         @click="onAddProperty"
         class="btn btn-primary"

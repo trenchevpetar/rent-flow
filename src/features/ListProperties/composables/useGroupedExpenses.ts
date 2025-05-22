@@ -10,7 +10,6 @@ interface GroupedExpense {
 export function useGroupedExpenses (expenses: Ref<Expenses[]>) {
   const groupedByMonth = computed<Record<string, GroupedExpense>>(() => {
     return expenses.value.reduce((result, expense) => {
-      console.log(result);
       const month = new Date(expense.date).toISOString().slice(0, 7)
 
       if (!result[month]) {
