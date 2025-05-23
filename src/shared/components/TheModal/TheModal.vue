@@ -7,6 +7,7 @@
     <div class="modal-box">
       <!-- Close Button -->
       <button
+        v-if="closable"
         @click="closeModal"
         class="btn btn-sm btn-circle absolute right-2 top-2"
       >
@@ -37,6 +38,7 @@
 
     <!-- Click outside to close -->
     <form
+      v-if="closable"
       method="dialog"
       class="modal-backdrop"
     >
@@ -54,6 +56,10 @@ defineProps({
   title: {
     type: String,
     default: ''
+  },
+  closable: {
+    type: Boolean,
+    default: true
   }
 })
 

@@ -24,6 +24,24 @@ export async function addProperty (property: Property) {
   }
 }
 
+export async function getPropertiesById (key: string, value: string) {
+  if (key) {
+    try {
+      const response = await databases.listDocuments(
+        CONFIG.DATABASE_ID,
+        CONFIG.COLLECTIONS.PROPERTIES,
+        [
+          Query.equal(key, value)
+        ]
+      )
+
+      return response.documents
+    } catch (err) {
+      console.log(err);
+    }
+  }
+}
+
 export async function getPropertiesByOwnerId () {
   const authStore = useAuthStore();
   const ownerId = authStore.currentUser?.$id;

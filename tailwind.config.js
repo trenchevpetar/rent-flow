@@ -29,5 +29,10 @@ module.exports = {
 		'2xl:col-span-1', '2xl:col-span-2', '2xl:col-span-3', '2xl:col-span-4', '2xl:col-span-5',
 		'2xl:col-span-6', '2xl:col-span-7', '2xl:col-span-8', '2xl:col-span-9', '2xl:col-span-10',
 		'2xl:col-span-11', '2xl:col-span-12',
+
+		'alert-success',
+		'alert-error',
+		'alert-warning',
+		'alert-info',
 	],
 }

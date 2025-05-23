@@ -46,7 +46,7 @@
 
 <script lang="ts" setup>
 import { useMutation, useQuery, useQueryClient } from '@tanstack/vue-query';
-import { computed, onMounted, ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 
@@ -68,7 +68,6 @@ import TheSpinner from '@/shared/components/TheSpinner/TheSpinner.vue';
 
 const authStore = useAuthStore();
 const route = useRoute()
-const { data: cachedProperties } = useCachedProperties()
 
 const { t } = useI18n<{ messages: MessagesSchema }>()
 const isModalActive = ref(false);
@@ -76,7 +75,8 @@ const isModalActive = ref(false);
 const propertyId = computed(() => route.params.id as string)
 const queryClient = useQueryClient();
 const loadingItemId = ref<string | null>(null)
-const cachedPropertyByRouteId = computed(() => cachedProperties.value?.filter((property) => property.$id === propertyId.value)[0])
+const { data: cachedProperties } = useCachedProperties('$id', propertyId.value)
+const cachedPropertyByRouteId = computed(() => cachedProperties?.value?.filter((property) => property.$id === propertyId.value)[0])
 
 const { data: expenses, isPending: isGetPending } = useQuery({
   queryKey: ['expenses', propertyId.value],
@@ -112,10 +112,6 @@ const updateMutation = useMutation({
   onSettled: () => {
     loadingItemId.value = null;
   }
-})
-
-onMounted(async () => {
-  cachedProperties.value = await getOrFetchProperties()
 })
 
 const onAddExpense = () => isModalActive.value = true

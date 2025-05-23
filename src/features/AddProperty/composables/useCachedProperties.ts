@@ -1,20 +1,36 @@
 import { useQuery, useQueryClient } from '@tanstack/vue-query';
 
-import { getPropertiesByOwnerId } from '@/features/AddProperty/services/property.service.ts';
+import { getPropertiesById } from '@/features/AddProperty/services/property.service.ts';
 
-export function useCachedProperties () {
+export function useCachedProperties (queryKey: string, queryValue: string) {
   const queryClient = useQueryClient()
 
-  const queryKey = ['ownerId']
-
-  const query = useQuery({
-    queryKey,
-    queryFn: getPropertiesByOwnerId,
-    staleTime: 1000 * 60 * 5,
-    initialData: () => queryClient.getQueryData(queryKey)
-  })
-
-  return {
-    ...query
+  if (!queryKey) {
+    console.warn(`[useCachedProperties] Invalid queryKey: ${queryKey}`)
+    return {
+      data: null,
+      isPending: false,
+      isError: true,
+      error: new Error('Invalid queryKey provided'),
+    }
   }
+
+  if (!queryValue) {
+    console.warn(`[useCachedProperties] Invalid queryValue: ${queryValue}`)
+    return {
+      data: null,
+      isPending: false,
+      isError: true,
+      error: new Error('Invalid queryValue provided'),
+    }
+  }
+
+  const fullQueryKey = [queryKey, queryValue]
+
+  return useQuery({
+    queryKey: fullQueryKey,
+    queryFn: () => getPropertiesById(queryKey, queryValue),
+    staleTime: 1000 * 60 * 5,
+    initialData: () => queryClient.getQueryData(fullQueryKey)
+  })
 }

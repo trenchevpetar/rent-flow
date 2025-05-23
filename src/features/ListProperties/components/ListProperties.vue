@@ -38,11 +38,14 @@
 import { useI18n } from 'vue-i18n';
 
 import { useCachedProperties } from '@/features/AddProperty/composables/useCachedProperties.ts';
+import { useAuthStore } from '@/features/Login/stores/useAuthStore.ts';
 import type { MessagesSchema } from '@/i18n/messages.ts';
 import TheColumn from '@/layouts/Grid/TheColumn.vue';
 import TheGrid from '@/layouts/Grid/TheGrid.vue';
 import TheSkeletonCircleContent from '@/shared/components/TheSkeleton/TheSkeletonCircleContent.vue';
 
-const { data: properties, isPending: isLoading } = useCachedProperties()
+const authStore = useAuthStore();
+
+const { data: properties, isPending: isLoading } = useCachedProperties('ownerId', authStore.currentUser?.$id ?? '')
 const { t } = useI18n<{ messages: MessagesSchema }>()
 </script>
