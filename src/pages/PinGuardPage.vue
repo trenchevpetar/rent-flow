@@ -34,10 +34,8 @@ const code = ref<string[]>(['','','','','',''])
 const router = useRouter()
 const route = useRoute()
 const toastStore = useToastStore()
-const redirectTo = route.query.redirect as string || '/';
-const matchId = redirectTo.match(/\/property-details\/([^/?#]+)/)
-const propertyId = matchId ? matchId[1] : null;
-const { data } = useCachedProperties('$id', propertyId || '')
+const queryId = route.query.id as string;
+const { data } = useCachedProperties('$id', queryId || '')
 const disableContinue = ref(false)
 
 const onContinue = async () => {
@@ -51,8 +49,8 @@ const onContinue = async () => {
   if (enteredPin === pin) {
     disableContinue.value = true
     await toastStore.show('Correct pin! Redirecting..', 'success')
-    pinStore.setVerified()
-    await router.replace(redirectTo)
+    pinStore.markVerified(queryId)
+    await router.replace(`/property-details/${queryId}`)
   } else {
     toastStore.show('Invalid PIN, try again', 'error')
   }

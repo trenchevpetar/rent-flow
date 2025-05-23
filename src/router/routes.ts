@@ -32,17 +32,18 @@ export const routes = [
     beforeEnter: async (to: RouteLocationNormalized) => {
       const authStore = useAuthStore();
       const pinStore = usePinStore();
+      const id = to.params.id as string;
 
       if (!authStore.currentUser) {
         await authStore.fetchUser();
       }
 
       if (authStore.isLoggedIn) return true;
-      if (pinStore.verified) return true;
+      if (pinStore.isVerified(id)) return true;
 
       return {
         path: '/gate',
-        query: { redirect: to.fullPath },
+        query: { id },
       };
     }
   },

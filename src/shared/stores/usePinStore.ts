@@ -1,15 +1,24 @@
-// stores/pin.ts
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
 export const usePinStore = defineStore('pin', () => {
-  const verified = ref(false);
+  const verifiedProductIds = ref<string[]>([]);
 
-  const setVerified = () => {
-    verified.value = true;
+  function isVerified (id: string) {
+    return verifiedProductIds.value.includes(id);
+  }
+
+  function markVerified (id: string) {
+    if (!verifiedProductIds.value.includes(id)) {
+      verifiedProductIds.value.push(id);
+    }
+  }
+
+  return {
+    verifiedProductIds,
+    isVerified,
+    markVerified,
   };
-
-  return { verified, setVerified };
 }, {
   persist: {
     key: 'rent-flow-pin'
