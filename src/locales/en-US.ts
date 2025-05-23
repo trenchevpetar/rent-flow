@@ -18,6 +18,7 @@ const enUS = {
   },
   location: 'Location',
   logout: 'Logout',
+  continue: 'Continue',
   placeholders: {
     login: {
       email: 'Your email',
@@ -49,6 +50,14 @@ const enUS = {
   actions: {
     markAsPaid: 'Mark as paid',
     delete: 'Delete'
+  },
+  toast: {
+    pin: {
+      info: 'Enter or paste the pin code to access page',
+      enter: 'Please enter PIN',
+      correct: 'Correct PIN! Redirecting..',
+      invalid: 'Invalid PIN, try again'
+    }
   }
 }
 

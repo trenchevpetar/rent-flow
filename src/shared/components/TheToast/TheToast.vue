@@ -1,6 +1,6 @@
 <!-- components/AppToast.vue -->
 <template>
-  <div class="fixed bottom-4 right-4 z-50 space-y-2 w-80 z-[9999]">
+  <div class="fixed bottom-4 right-4 space-y-2 w-80 z-[9999]">
     <TransitionGroup
       name="toast"
       tag="div"
@@ -9,7 +9,7 @@
         v-for="toast in toasts"
         :key="toast.id"
         :class="`alert alert-${toast.type}`"
-        class="shadow-lg flex justify-between items-center"
+        class="shadow-lg flex justify-between items-center mb-4"
         @click="remove(toast.id)"
       >
         <span>{{ toast.message }}</span>

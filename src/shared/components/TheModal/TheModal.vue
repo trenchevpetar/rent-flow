@@ -30,7 +30,7 @@
       <!-- Footer Slot -->
       <div
         v-if="$slots.footer"
-        class="mt-6"
+        class="mt-6 flex"
       >
         <slot name="footer" />
       </div>
