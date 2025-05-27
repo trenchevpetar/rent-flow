@@ -3,8 +3,6 @@ import { useI18n } from 'vue-i18n';
 export function useFormatAmount () {
   const { locale } = useI18n()
 
-  console.log(locale.value);
-
   const format = (amount: number) => {
     return new Intl.NumberFormat(locale.value, {
       style: 'currency',
