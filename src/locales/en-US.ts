@@ -19,6 +19,7 @@ const enUS = {
   location: 'Location',
   logout: 'Logout',
   continue: 'Continue',
+  totalPending: 'Total pending',
   placeholders: {
     login: {
       email: 'Your email',
@@ -45,7 +46,9 @@ const enUS = {
   },
   language: {
     en: 'English',
-    mk: 'Macedonian'
+    mk: 'Macedonian',
+    enAbbr: 'ENG',
+    mkAbbr: 'MKD'
   },
   actions: {
     markAsPaid: 'Mark as paid',

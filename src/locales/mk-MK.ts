@@ -19,6 +19,7 @@ const mkMK = {
   location: 'Локација',
   logout: 'Одјави се',
   continue: 'Продолжи',
+  totalPending: 'Вкупно од сите месеци',
   placeholders: {
     login: {
       email: 'Вашата електронска пошта',
@@ -45,7 +46,9 @@ const mkMK = {
   },
   language: {
     en: 'Англиски',
-    mk: 'Македонски'
+    mk: 'Македонски',
+    enAbbr: 'АНГ',
+    mkAbbr: 'МКД'
   },
   actions: {
     markAsPaid: 'Означи како платено',

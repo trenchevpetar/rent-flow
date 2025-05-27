@@ -11,7 +11,7 @@
       :checked="index.toString() === activeIndex"
       @change="onChange(index.toString())"
     >
-    <div class="collapse-title font-semibold">
+    <div class="collapse-title font-semibold border-b border-base-300">
       {{ property }}
     </div>
     <div class="collapse-content text-sm">

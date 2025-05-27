@@ -30,6 +30,7 @@ import { useAuthStore } from '@/features/Login/stores/useAuthStore.ts';
 import type { MessagesSchema } from '@/i18n/messages.ts';
 import LanguageSwitcher from '@/shared/components/LanguageSwitcher/LanguageSwitcher.vue';
 import TheSpinner from '@/shared/components/TheSpinner/TheSpinner.vue';
+import { useBreakpoints } from '@/shared/composables/useBreakpoints.ts';
 
 const router = useRouter()
 const authStore = useAuthStore()

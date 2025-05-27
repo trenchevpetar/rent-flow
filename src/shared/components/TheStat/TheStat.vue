@@ -1,0 +1,58 @@
+<template>
+  <div class="stats w-full">
+    <div class="stat">
+      <div
+        v-if="!isMobile"
+        class="stat-figure text-secondary"
+      >
+        <div class="w-16">
+          <slot name="image" />
+        </div>
+      </div>
+      <div class="stat-title">
+        {{ title }}
+      </div>
+      <div
+        v-if="value"
+        class="stat-value"
+      >
+        {{ formattedValue }}
+      </div>
+      <div
+        v-if="description"
+        class="stat-desc"
+      >
+        {{ description }}
+      </div>
+      <div
+        v-if="$slots.actions"
+        class="stat-actions"
+      >
+        <slot name="actions" />
+      </div>
+    </div>
+  </div>
+</template>
+
+<script lang="ts" setup>
+import { useBreakpoints } from '@/shared/composables/useBreakpoints.ts';
+import { useFormatAmount } from '@/shared/composables/useFormatAmount.ts';
+
+const { isMobile } = useBreakpoints()
+const { format } = useFormatAmount()
+const props = defineProps({
+  title: {
+    type: String,
+    default: ''
+  },
+  value: {
+    type: [String, Number],
+    default: ''
+  },
+  description: {
+    type: String,
+    default: ''
+  }
+})
+const formattedValue = format(props.value as number)
+</script>
