@@ -32,6 +32,8 @@
 </template>
 
 <script lang="ts" setup>
+import { computed } from 'vue';
+
 import { useBreakpoints } from '@/shared/composables/useBreakpoints.ts';
 import { useFormatAmount } from '@/shared/composables/useFormatAmount.ts';
 
@@ -51,5 +53,5 @@ const props = defineProps({
     default: ''
   }
 })
-const formattedValue = format(props.value as number)
+const formattedValue = computed(() => format(props.value as number))
 </script>

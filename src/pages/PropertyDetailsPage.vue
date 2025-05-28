@@ -32,10 +32,22 @@
     v-if="expenses"
     @on-update-expense="onUpdateExpense"
     @on-delete-expense="onDeleteExpense"
+    @on-edit-expense="onEditExpense"
     :loading-item-id="loadingItemId"
     :expenses="expenses"
   />
 
+  <TheModal
+    title="Edit expense"
+    v-model="isEditModalActive"
+  >
+    <EditExpenseForm
+      v-if="isEditModalActive"
+      :expense="editableExpense"
+      @on-edit-confirm="onEditConfirm"
+    />
+  </TheModal>
+  
   <TheModal
     :title="t('expenses.add')"
     v-model="isModalActive"
@@ -51,6 +63,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 
 import AddExpenseToPropertyForm from '@/features/AddProperty/components/AddExpenseToPropertyForm.vue';
+import EditExpenseForm from '@/features/AddProperty/components/EditExpenseForm.vue';
 import { useCachedProperties } from '@/features/AddProperty/composables/useCachedProperties.ts';
 import {
   deleteExpense,
@@ -71,12 +84,14 @@ const route = useRoute()
 
 const { t } = useI18n<{ messages: MessagesSchema }>()
 const isModalActive = ref(false);
+const isEditModalActive = ref(false);
 
 const propertyId = computed(() => route.params.id as string)
 const queryClient = useQueryClient();
 const loadingItemId = ref<string | null>(null)
 const { data: cachedProperties } = useCachedProperties('$id', propertyId.value)
 const cachedPropertyByRouteId = computed(() => cachedProperties?.value?.filter((property) => property.$id === propertyId.value)[0])
+const editableExpense = ref()
 
 const { data: expenses, isPending: isGetPending } = useQuery({
   queryKey: ['expenses', propertyId.value],
@@ -101,21 +116,41 @@ const deleteMutation = useMutation({
 const updateMutation = useMutation({
   mutationFn: async (expense: Expenses) => {
     loadingItemId.value = expense.$id;
-    return await updateExpenseByExpenseId(expense.$id, {
-      ...expense,
-    })
+    return await updateExpenseByExpenseId(expense.$id, expense)
   },
   onSuccess: () => {
     queryClient.invalidateQueries({ queryKey: ['expenses'] })
   },
   onSettled: () => {
     loadingItemId.value = null;
+    isEditModalActive.value = false;
   }
 })
+
+// const editMutation = useMutation({
+//   mutationFn: async (expense: Expenses) => {
+//     loadingItemId.value = expense.$id;
+//
+//     return await editExpenseById(expense.$id, expense)
+//   },
+//   onSuccess: () => {
+//     queryClient.invalidateQueries({ queryKey: ['expenses'] })
+//   },
+//   onSettled: () => {
+//     loadingItemId.value = null;
+//   }
+// })
 
 const onAddExpense = () => isModalActive.value = true
 const onExpenseAdded = () => isModalActive.value = false
 
 const onUpdateExpense = (expense: Expenses) => updateMutation.mutate(expense)
 const onDeleteExpense = (id: string) => deleteMutation.mutate(id)
+const onEditExpense = (id: string) => {
+  console.log(expenses.value);
+  editableExpense.value = expenses.value?.find((expense: Expenses) => expense.$id === id)
+  isEditModalActive.value = true;
+}
+
+const onEditConfirm = (expense: Expenses) => updateMutation.mutate(expense)
 </script>

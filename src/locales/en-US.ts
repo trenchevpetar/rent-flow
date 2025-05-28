@@ -54,6 +54,7 @@ const enUS = {
     markAsPaid: 'Mark as paid',
     markAsUnpaid: 'Mark as unpaid',
     delete: 'Delete',
+    edit: 'Edit'
   },
   toast: {
     pin: {

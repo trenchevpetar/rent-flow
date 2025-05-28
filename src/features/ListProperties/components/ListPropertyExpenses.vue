@@ -29,6 +29,7 @@
               v-else
               :title="expense.category"
               :value="expense.amount"
+              :class="paidStyles(expense.isPaid)"
             >
               <template #description>
                 <div class="flex items-center gap-1 text-sm">
@@ -43,7 +44,7 @@
                   :src="expenseCategories[expense.category as keyof typeof expenseCategories].imageUrl"
                   :alt="expenseCategories[expense.category as keyof typeof expenseCategories].label"
                 >
-                <DefaultExpenseIcon v-else />
+                <HomeIcon v-else />
               </template>
               <template #actions>
                 <div
@@ -71,6 +72,12 @@
                     {{ t('actions.markAsUnpaid') }}
                   </button>
                   <button
+                    class="btn btn-info btn-xs join-item"
+                    @click="onEditExpense(expense.$id)"
+                  >
+                    {{ t('actions.edit') }}
+                  </button>
+                  <button
                     class="btn btn-error btn-xs join-item"
                     @click="onDeleteExpense(expense.$id)"
                   >
@@ -96,8 +103,8 @@
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import DefaultExpenseIcon from '@/assets/icons/DefaultExpenseIcon.vue';
 import DollarIcon from '@/assets/icons/DollarIcon.vue';
+import HomeIcon from '@/assets/icons/HomeIcon.vue';
 import { expenseCategories } from '@/features/AddProperty/constants/expense.category.ts';
 import type { Expenses } from '@/features/AddProperty/types/expenses.ts';
 import GroupedPropertyExpenses from '@/features/ListProperties/components/GroupedPropertyExpenses.vue';
@@ -115,7 +122,7 @@ const props = defineProps<{
   loadingItemId: string | null;
 }>()
 
-const emit = defineEmits(['on-update-expense', 'on-delete-expense'])
+const emit = defineEmits(['on-update-expense', 'on-delete-expense', 'on-edit-expense'])
 
 const totalAmountPendingPayment = props.expenses.reduce((sum, expense) => {
   return sum + expense.amount
@@ -125,4 +132,10 @@ const onUpdateExpense = (expense: Expenses) => emit('on-update-expense', {
   ...expense,
 })
 const onDeleteExpense = (id: string) => emit('on-delete-expense', id)
+const onEditExpense = (id: string) => emit('on-edit-expense', id)
+
+const paidStyles = (isPaid: boolean) => {
+  if (isPaid) return 'border-l-[10px] border-l-success mt-4'
+  return 'border-l-[10px] border-l-warning mt-4'
+}
 </script>

@@ -54,7 +54,7 @@ const mkMK = {
     markAsPaid: 'Означи како платено',
     markAsUnpaid: 'Означи како неплатено',
     delete: 'Избриши',
-    paid: 'Платено'
+    edit: 'Измени'
   },
   toast: {
     pin: {

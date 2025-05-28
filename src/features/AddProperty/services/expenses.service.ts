@@ -67,3 +67,22 @@ export async function updateExpenseByExpenseId (
     throw err;
   }
 }
+
+export async function editExpenseById (
+  expenseId: string,
+  expense: UpdatableExpense
+) {
+  const cleanExpense = stripSystemFields(expense);
+
+  try {
+    return await databases.updateDocument(
+      CONFIG.DATABASE_ID,
+      CONFIG.COLLECTIONS.EXPENSES,
+      expenseId,
+      cleanExpense,
+    )
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+}
