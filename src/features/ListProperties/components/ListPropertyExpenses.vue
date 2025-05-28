@@ -30,6 +30,13 @@
               :title="expense.category"
               :value="expense.amount"
             >
+              <template #description>
+                <div class="flex items-center gap-1 text-sm">
+                  <DollarIcon />
+                  <span v-if="expense.isPaid">{{ t('payment.paid') }}</span>
+                  <span v-else>{{ t('payment.pending') }}</span>
+                </div>
+              </template>
               <template #image>
                 <img
                   v-if="expenseCategories[expense.category as keyof typeof expenseCategories]?.imageUrl"
@@ -46,9 +53,22 @@
                   <button
                     v-if="!expense.isPaid"
                     class="btn btn-success btn-xs join-item"
-                    @click="onUpdateExpense(expense)"
+                    @click="onUpdateExpense({
+                      ...expense,
+                      isPaid: true
+                    })"
                   >
                     {{ t('actions.markAsPaid') }}
+                  </button>
+                  <button
+                    v-else
+                    class="btn btn-warning btn-xs join-item"
+                    @click="onUpdateExpense({
+                      ...expense,
+                      isPaid: false
+                    })"
+                  >
+                    {{ t('actions.markAsUnpaid') }}
                   </button>
                   <button
                     class="btn btn-error btn-xs join-item"
@@ -77,6 +97,7 @@ import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import DefaultExpenseIcon from '@/assets/icons/DefaultExpenseIcon.vue';
+import DollarIcon from '@/assets/icons/DollarIcon.vue';
 import { expenseCategories } from '@/features/AddProperty/constants/expense.category.ts';
 import type { Expenses } from '@/features/AddProperty/types/expenses.ts';
 import GroupedPropertyExpenses from '@/features/ListProperties/components/GroupedPropertyExpenses.vue';
@@ -100,6 +121,8 @@ const totalAmountPendingPayment = props.expenses.reduce((sum, expense) => {
   return sum + expense.amount
 }, 0)
 
-const onUpdateExpense = (expense: Expenses) => emit('on-update-expense', expense)
+const onUpdateExpense = (expense: Expenses) => emit('on-update-expense', {
+  ...expense,
+})
 const onDeleteExpense = (id: string) => emit('on-delete-expense', id)
 </script>

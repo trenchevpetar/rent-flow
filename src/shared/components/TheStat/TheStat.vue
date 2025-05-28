@@ -9,7 +9,7 @@
           <slot name="image" />
         </div>
       </div>
-      <div class="stat-title">
+      <div class="stat-title text-accent">
         {{ title }}
       </div>
       <div
@@ -18,11 +18,8 @@
       >
         {{ formattedValue }}
       </div>
-      <div
-        v-if="description"
-        class="stat-desc"
-      >
-        {{ description }}
+      <div class="stat-desc mb-2 text-accent">
+        <slot name="description" />
       </div>
       <div
         v-if="$slots.actions"

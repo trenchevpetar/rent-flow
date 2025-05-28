@@ -52,7 +52,9 @@ const mkMK = {
   },
   actions: {
     markAsPaid: 'Означи како платено',
-    delete: 'Избриши'
+    markAsUnpaid: 'Означи како неплатено',
+    delete: 'Избриши',
+    paid: 'Платено'
   },
   toast: {
     pin: {

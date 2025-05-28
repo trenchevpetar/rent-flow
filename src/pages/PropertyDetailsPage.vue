@@ -37,7 +37,7 @@
   />
 
   <TheModal
-    title="Add expense to property"
+    :title="t('expenses.add')"
     v-model="isModalActive"
   >
     <AddExpenseToPropertyForm @on-add-expense="onExpenseAdded" />
@@ -103,7 +103,6 @@ const updateMutation = useMutation({
     loadingItemId.value = expense.$id;
     return await updateExpenseByExpenseId(expense.$id, {
       ...expense,
-      isPaid: true
     })
   },
   onSuccess: () => {

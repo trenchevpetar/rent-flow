@@ -52,7 +52,8 @@ const enUS = {
   },
   actions: {
     markAsPaid: 'Mark as paid',
-    delete: 'Delete'
+    markAsUnpaid: 'Mark as unpaid',
+    delete: 'Delete',
   },
   toast: {
     pin: {
