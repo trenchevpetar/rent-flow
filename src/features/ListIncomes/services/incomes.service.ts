@@ -1,7 +1,7 @@
 import { ID, Query } from 'appwrite';
 
 import { CONFIG } from '@/config/config.ts';
-import type { Incomes } from '@/features/ListIncomes/types/incomes.types.ts';
+import type { Incomes, UpdatableIncome } from '@/features/ListIncomes/types/incomes.types.ts';
 import { useAuthStore } from '@/features/Login/stores/useAuthStore.ts';
 import { databases } from '@/shared/utils/api.ts';
 
@@ -22,7 +22,7 @@ export async function getIncomes (propertyId: string): Promise<Incomes[]> {
   }
 }
 
-export async function addIncome (income: Incomes) {
+export async function addIncome (income: UpdatableIncome) {
   const authStore = useAuthStore();
   const ownerId = authStore.currentUser?.$id;
 

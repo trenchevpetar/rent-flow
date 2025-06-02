@@ -35,7 +35,6 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import { useCachedProperties } from '@/features/AddProperty/composables/useCachedProperties.ts';
@@ -47,9 +46,6 @@ import TheSkeletonCircleContent from '@/shared/components/TheSkeleton/TheSkeleto
 
 const authStore = useAuthStore();
 
-const isModalActive = ref(false)
 const { data: properties, isPending: isLoading } = useCachedProperties('ownerId', authStore.currentUser?.$id ?? '')
 const { t } = useI18n<{ messages: MessagesSchema }>()
-
-const onAddProperty = () => isModalActive.value = true;
 </script>

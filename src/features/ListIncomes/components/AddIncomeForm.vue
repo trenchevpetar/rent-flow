@@ -41,7 +41,7 @@ import { useMutation, useQueryClient } from '@tanstack/vue-query';
 import { ref } from 'vue';
 
 import { addIncome } from '@/features/ListIncomes/services/incomes.service.ts';
-import type { Incomes } from '@/features/ListIncomes/types/incomes.types.ts';
+import type { UpdatableIncome } from '@/features/ListIncomes/types/incomes.types.ts';
 import InputDate from '@/shared/components/InputDate/InputDate.vue';
 import InputField from '@/shared/components/InputField/InputField.vue';
 import TheSpinner from '@/shared/components/TheSpinner/TheSpinner.vue';
@@ -49,7 +49,8 @@ import TheSpinner from '@/shared/components/TheSpinner/TheSpinner.vue';
 const queryClient = useQueryClient();
 
 const emit = defineEmits(['on-add-income'])
-const formValues = ref<Incomes>({
+const formValues = ref<UpdatableIncome>({
+  propertyId: '',
   type: '',
   amount: 0,
   datePaid: ''

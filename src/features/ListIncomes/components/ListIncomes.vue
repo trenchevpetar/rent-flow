@@ -42,8 +42,6 @@ import TheSkeletonCircleContent from '@/shared/components/TheSkeleton/TheSkeleto
 import TheStat from '@/shared/components/TheStat/TheStat.vue';
 
 const authStore = useAuthStore();
-const propertyId = computed(() => authStore.currentUser.$id);
+const propertyId = computed(() => authStore.currentUser?.$id || '');
 const { data: incomes, isPending } = useIncomes(propertyId.value);
-
-const onAddIncome = () => {}
 </script>

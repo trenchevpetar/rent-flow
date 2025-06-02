@@ -88,7 +88,6 @@ import {
   updateExpenseByExpenseId
 } from '@/features/AddProperty/services/expenses.service.ts';
 import type { Expenses } from '@/features/AddProperty/types/expenses.ts';
-import ExpensesChart from '@/features/ListProperties/components/ExpensesChart.vue';
 import ListPropertyExpenses from '@/features/ListProperties/components/ListPropertyExpenses.vue';
 import { useAuthStore } from '@/features/Login/stores/useAuthStore.ts';
 import type { MessagesSchema } from '@/i18n/messages.ts';
@@ -97,7 +96,6 @@ import TheGrid from '@/layouts/Grid/TheGrid.vue';
 import GroqAnalysis from '@/shared/components/Groq/GroqAnalysis.vue';
 import TheModal from '@/shared/components/TheModal/TheModal.vue';
 import TheSpinner from '@/shared/components/TheSpinner/TheSpinner.vue';
-import { stripSystemFields } from '@/shared/utils/strip-system-fields.ts';
 
 const authStore = useAuthStore();
 const route = useRoute()
