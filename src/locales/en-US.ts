@@ -2,7 +2,8 @@ const enUS = {
   dashboard: 'Dashboard',
   properties: {
     properties: 'Properties',
-    add: 'Add property'
+    add: 'Add property',
+    added: 'Added properties'
   },
   expenses: {
     check: 'Check expenses',
@@ -15,6 +16,9 @@ const enUS = {
     pending: 'Pending payment',
     paid: 'Paid',
     total: 'Total'
+  },
+  income: {
+    add: 'Add Income'
   },
   location: 'Location',
   logout: 'Logout',

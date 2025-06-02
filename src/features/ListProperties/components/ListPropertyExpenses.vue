@@ -10,6 +10,7 @@
     </li>
 
     <TheStat
+      v-if="totalAmountPendingPayment"
       :title="t('totalPending')"
       :value="totalAmountPendingPayment"
     />

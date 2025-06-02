@@ -2,7 +2,8 @@ const mkMK = {
   dashboard: 'Почетна',
   properties: {
     properties: 'Имоти',
-    add: 'Додај имот'
+    add: 'Додај имот',
+    added: 'Постоечки имоти'
   },
   expenses: {
     check: 'Провери трошоци',
@@ -15,6 +16,9 @@ const mkMK = {
     pending: 'Во очекување на уплата',
     paid: 'Платено',
     total: 'Вкупно'
+  },
+  income: {
+    add: 'Додај прилив'
   },
   location: 'Локација',
   logout: 'Одјави се',

@@ -37,6 +37,18 @@
     :expenses="expenses"
   />
 
+  <div
+    v-if="expenses && expenses.length"
+    class="p-4 list relative bg-base-100 rounded-box shadow-md mt-10"
+  >
+    <h2 class="title text-2xl">
+      Expenses in charts
+    </h2>
+    <ExpensesChart
+      :expenses="expenses"
+    />
+  </div>
+
   <TheModal
     title="Edit expense"
     v-model="isEditModalActive"
@@ -71,6 +83,7 @@ import {
   updateExpenseByExpenseId
 } from '@/features/AddProperty/services/expenses.service.ts';
 import type { Expenses } from '@/features/AddProperty/types/expenses.ts';
+import ExpensesChart from '@/features/ListProperties/components/ExpensesChart.vue';
 import ListPropertyExpenses from '@/features/ListProperties/components/ListPropertyExpenses.vue';
 import { useAuthStore } from '@/features/Login/stores/useAuthStore.ts';
 import type { MessagesSchema } from '@/i18n/messages.ts';

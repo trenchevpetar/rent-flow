@@ -16,13 +16,6 @@
         placeholder="Location"
       />
 
-      <!-- should list landlords here -->
-      <!--      <InputField-->
-      <!--        v-model="formValues.name"-->
-      <!--        label="Name"-->
-      <!--        placeholder="Name"-->
-      <!--      />-->
-
       <InputField
         v-model="formValues.units"
         type="number"
