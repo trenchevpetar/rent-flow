@@ -11,11 +11,14 @@
     "generate-pwa-assets": "pwa-assets-generator"
   },
   "dependencies": {
+    "@tailwindcss/typography": "^0.5.16",
     "@tailwindcss/vite": "^4.1.7",
     "@tanstack/vue-query": "^5.76.0",
     "appwrite": "^18.1.0",
     "daisyui": "^5.0.35",
+    "dompurify": "^3.2.6",
     "echarts": "^5.6.0",
+    "marked": "^15.0.12",
     "pinia": "^3.0.2",
     "pinia-plugin-persistedstate": "^4.3.0",
     "tailwindcss": "^4.1.7",

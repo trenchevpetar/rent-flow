@@ -37,6 +37,11 @@
     :expenses="expenses"
   />
 
+  <GroqAnalysis
+    v-if="expenses"
+    :expenses="expenses"
+  />
+
   <!--  <div-->
   <!--    v-if="expenses && expenses.length"-->
   <!--    class="p-4 list relative bg-base-100 rounded-box shadow-md mt-10"-->
@@ -89,8 +94,10 @@ import { useAuthStore } from '@/features/Login/stores/useAuthStore.ts';
 import type { MessagesSchema } from '@/i18n/messages.ts';
 import TheColumn from '@/layouts/Grid/TheColumn.vue';
 import TheGrid from '@/layouts/Grid/TheGrid.vue';
+import GroqAnalysis from '@/shared/components/Groq/GroqAnalysis.vue';
 import TheModal from '@/shared/components/TheModal/TheModal.vue';
 import TheSpinner from '@/shared/components/TheSpinner/TheSpinner.vue';
+import { stripSystemFields } from '@/shared/utils/strip-system-fields.ts';
 
 const authStore = useAuthStore();
 const route = useRoute()
