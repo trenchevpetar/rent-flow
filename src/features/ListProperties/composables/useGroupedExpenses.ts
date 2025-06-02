@@ -1,9 +1,10 @@
-import { computed, type Ref } from 'vue';
+import { computed, type Ref } from 'vue'
 
-import type { Expenses } from '@/features/AddProperty/types/expenses.ts';
+import type { Expenses } from '@/features/AddProperty/types/expenses.ts'
 
 interface GroupedExpense {
-  totalAmount: number;
+  totalAmount: number
+  totalUnpaid: number
   expenses: Record<string, Expenses>
 }
 
@@ -13,10 +14,18 @@ export function useGroupedExpenses (expenses: Ref<Expenses[]>) {
       const month = new Date(expense.date).toISOString().slice(0, 7)
 
       if (!result[month]) {
-        result[month] = { totalAmount: 0, expenses: {} }
+        result[month] = {
+          totalAmount: 0,
+          totalUnpaid: 0,
+          expenses: {}
+        }
       }
 
       result[month].totalAmount += expense.amount
+
+      if (!expense.isPaid) {
+        result[month].totalUnpaid += expense.amount
+      }
 
       if (expense.$id) {
         result[month].expenses[expense.$id] = expense
@@ -25,9 +34,9 @@ export function useGroupedExpenses (expenses: Ref<Expenses[]>) {
       return result
     }, {} as Record<string, GroupedExpense>)
 
-    // Sort and rebuild the object
+    // Sort months ascending (e.g., "2024-01", "2024-02", ...)
     return Object.keys(raw)
-      .sort((a, b) => a.localeCompare(b)) // ascending order
+      .sort((a, b) => a.localeCompare(b))
       .reduce((acc, key) => {
         acc[key] = raw[key]
         return acc

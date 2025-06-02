@@ -37,17 +37,17 @@
     :expenses="expenses"
   />
 
-  <div
-    v-if="expenses && expenses.length"
-    class="p-4 list relative bg-base-100 rounded-box shadow-md mt-10"
-  >
-    <h2 class="title text-2xl">
-      Expenses in charts
-    </h2>
-    <ExpensesChart
-      :expenses="expenses"
-    />
-  </div>
+  <!--  <div-->
+  <!--    v-if="expenses && expenses.length"-->
+  <!--    class="p-4 list relative bg-base-100 rounded-box shadow-md mt-10"-->
+  <!--  >-->
+  <!--    <h2 class="title text-2xl">-->
+  <!--      Expenses in charts-->
+  <!--    </h2>-->
+  <!--    <ExpensesChart-->
+  <!--      :expenses="expenses"-->
+  <!--    />-->
+  <!--  </div>-->
 
   <TheModal
     title="Edit expense"

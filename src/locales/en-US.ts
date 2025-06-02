@@ -15,7 +15,8 @@ const enUS = {
   payment: {
     pending: 'Pending payment',
     paid: 'Paid',
-    total: 'Total'
+    total: 'Total',
+    unpaid: 'Unpaid'
   },
   income: {
     add: 'Add Income'
@@ -23,7 +24,8 @@ const enUS = {
   location: 'Location',
   logout: 'Logout',
   continue: 'Continue',
-  totalPending: 'Total pending',
+  totalPending: 'Total from all months',
+  totalUnpaid: 'Total unpaid from all months',
   placeholders: {
     login: {
       email: 'Your email',

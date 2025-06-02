@@ -1,6 +1,6 @@
 <template>
   <ul class="list relative bg-base-100 rounded-box shadow-md">
-    <li class="p-4 text-xs opacity-60 tracking-wide">
+    <li class="p-4 text-xs tracking-wide text-warning">
       <template v-if="expenses && expenses.length">
         {{ t('expenses.property') }}
       </template>
@@ -9,12 +9,30 @@
       </template>
     </li>
 
-    <TheStat
-      v-if="totalAmountPendingPayment"
-      :title="t('totalPending')"
-      :value="totalAmountPendingPayment"
-    />
-    
+    <TheGrid>
+      <TheColumn
+        :size="12"
+        :responsive="{ sm: 12, md: 6, lg: 6 }"
+      >
+        <TheStat
+          v-if="totalAmountPendingPayment"
+          :title="t('totalPending')"
+          :value="totalAmountPendingPayment"
+        />
+      </TheColumn>
+      
+      <TheColumn
+        :size="12"
+        :responsive="{ sm: 12, md: 6, lg: 6 }"
+      >
+        <TheStat
+          v-if="totalAmountUnpaid"
+          :title="t('totalUnpaid')"
+          :value="totalAmountUnpaid"
+        />
+      </TheColumn>
+    </TheGrid>
+
     <GroupedPropertyExpenses
       v-model:active-index="activeIndex"
       :expenses="expenses"
@@ -89,11 +107,31 @@
             </TheStat>
           </li>
         </ul>
-        <li class="mt-10 border border-base-300">
-          <TheStat
-            :title="t('payment.total')"
-            :value="data.totalAmount"
-          />
+        <li
+          v-if="Object.keys(data.expenses).length > 1"
+          class="mt-10 border border-white rounded-lg"
+        >
+          <TheGrid>
+            <TheColumn
+              :size="12"
+              :responsive="{ sm: 12, md: 6, lg: 6 }"
+            >
+              <TheStat
+                :title="t('payment.total')"
+                :value="data.totalAmount"
+              />
+            </TheColumn>
+
+            <TheColumn
+              :size="12"
+              :responsive="{ sm: 12, md: 6, lg: 6 }"
+            >
+              <TheStat
+                :title="t('payment.unpaid')"
+                :value="data.totalUnpaid"
+              />
+            </TheColumn>
+          </TheGrid>
         </li>
       </template>
     </GroupedPropertyExpenses>
@@ -101,7 +139,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import DollarIcon from '@/assets/icons/DollarIcon.vue';
@@ -111,6 +149,8 @@ import type { Expenses } from '@/features/AddProperty/types/expenses.ts';
 import GroupedPropertyExpenses from '@/features/ListProperties/components/GroupedPropertyExpenses.vue';
 import { useAuthStore } from '@/features/Login/stores/useAuthStore.ts';
 import type { MessagesSchema } from '@/i18n/messages.ts';
+import TheColumn from '@/layouts/Grid/TheColumn.vue';
+import TheGrid from '@/layouts/Grid/TheGrid.vue';
 import TheSkeletonCircleContent from '@/shared/components/TheSkeleton/TheSkeletonCircleContent.vue';
 import TheStat from '@/shared/components/TheStat/TheStat.vue';
 
@@ -125,9 +165,16 @@ const props = defineProps<{
 
 const emit = defineEmits(['on-update-expense', 'on-delete-expense', 'on-edit-expense'])
 
-const totalAmountPendingPayment = props.expenses.reduce((sum, expense) => {
-  return sum + expense.amount
-}, 0)
+const totalAmountPendingPayment = computed(() =>
+    props.expenses.reduce((sum, expense) => sum + expense.amount, 0)
+)
+
+const totalAmountUnpaid = computed(() =>
+    props.expenses.reduce(
+        (sum, expense) => !expense.isPaid ? sum + expense.amount : sum,
+        0
+    )
+)
 
 const onUpdateExpense = (expense: Expenses) => emit('on-update-expense', {
   ...expense,

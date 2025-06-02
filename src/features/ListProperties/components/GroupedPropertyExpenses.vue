@@ -11,7 +11,7 @@
       :checked="index.toString() === activeIndex"
       @change="onChange(index.toString())"
     >
-    <div class="collapse-title font-semibold border-b border-base-300 flex gap-1 items-center">
+    <div class="collapse-title font-semibold border-b border-white flex gap-1 items-center">
       <CircleStackIcon /> 
       {{ property }}
     </div>

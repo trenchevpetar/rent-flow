@@ -1,120 +1,69 @@
 <template>
   <v-chart
-    class="chart"
-    :option="chartOption"
-    autoresize
+      class="chart"
+      :option="chartOption"
+      autoresize
   />
 </template>
 
 <script setup lang="ts">
-import { graphic } from 'echarts';
-import { PictorialBarChart } from 'echarts/charts'
+import { LineChart } from 'echarts/charts'
 import {
   TitleComponent,
   TooltipComponent,
   GridComponent,
   LegendComponent,
 } from 'echarts/components'
-import { use } from 'echarts/core'
 import { CanvasRenderer } from 'echarts/renderers'
-import { computed, toRef } from 'vue'
-import VChart from 'vue-echarts'
+import { use } from 'echarts/core'
+import { computed, toRef, provide } from 'vue'
+import VChart, { THEME_KEY } from 'vue-echarts'
 
 import type { Expenses } from '@/features/AddProperty/types/expenses.ts';
-import { useGroupedExpenses } from '@/features/ListProperties/composables/useGroupedExpenses.ts';
+import { useGroupedExpenses } from '@/features/ListProperties/composables/useGroupedExpenses.ts'
+
+provide(THEME_KEY, 'dark')
 
 use([
   TitleComponent,
   CanvasRenderer,
-  PictorialBarChart,
+  LineChart,
   TooltipComponent,
   GridComponent,
   LegendComponent,
 ])
 
-// Props and your groupedByMonth
 const props = defineProps<{ expenses: Expenses[] }>()
 const { groupedByMonth } = useGroupedExpenses(toRef(props, 'expenses'))
 
 const chartOption = computed(() => {
   const grouped = groupedByMonth.value || {}
-
   const fullYear = 2025
+
   const months = Array.from({ length: 12 }, (_, i) =>
       `${fullYear}-${String(i + 1).padStart(2, '0')}`
   )
+  const xLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+  const actualValues = months.map(month => grouped[month]?.totalAmount || 0)
 
-  // Collect categories
-  const categories = new Set<string>()
-  Object.values(grouped).forEach(monthData => {
-    const expenses = monthData.expenses
-    Object.values(expenses).forEach(exp => {
-      if (exp.category) categories.add(exp.category)
-    })
+  const trendValues = actualValues.map((_, i, arr) => {
+    const prev = arr[i - 1] ?? arr[i]
+    const next = arr[i + 1] ?? arr[i]
+    return Math.round((prev + arr[i] + next) / 3)
   })
-
-  // Get category-based data
-  const categorySeries = Array.from(categories).map(category => ({
-    name: `${category}`,
-    type: 'pictorialBar',
-    symbol: 'rect',
-    symbolRepeat: true,
-    symbolSize: [10, 4],
-    symbolMargin: 2,
-    label: {
-      show: false,
-    },
-    data: months.map(month => {
-      const expenses = grouped[month]?.expenses || {}
-      return Object.values(expenses)
-          .filter(e => e.category === category)
-          .reduce((sum, e) => sum + e.amount, 0)
-    }),
-  }))
-
-  // Gradient bar data (e.g., total per month)
-  const barData = months.map(month => grouped[month]?.totalAmount || 0)
-
-  // Line data example: maybe average or static projection
-  const lineData = barData.map(v => v > 0 ? Math.round(v * 1.1) : 0)
-
-  const barSeries = {
-    name: 'Total',
-    type: 'bar',
-    barWidth: 10,
-    itemStyle: {
-      borderRadius: 5,
-      color: new graphic.LinearGradient(0, 0, 0, 1, [
-        { offset: 0, color: '#14c8d4' },
-        { offset: 1, color: '#43eec6' },
-      ]),
-    },
-    data: barData,
-  }
-
-  const lineSeries = {
-    name: 'Projected',
-    type: 'line',
-    smooth: true,
-    showAllSymbol: true,
-    symbol: 'emptyCircle',
-    symbolSize: 15,
-    lineStyle: {
-      width: 3,
-    },
-    data: lineData,
-  }
 
   return {
     title: {
-      text: '2025 Expenses Overview',
+      text: '2025 Monthly Expense Trend',
       left: 'center',
+      textStyle: { color: '#fff' }
     },
     tooltip: {
-      trigger: 'axis',
+      trigger: 'axis'
     },
     legend: {
       top: 'bottom',
+      textStyle: { color: '#fff' }
     },
     grid: {
       left: '3%',
@@ -124,20 +73,49 @@ const chartOption = computed(() => {
     },
     xAxis: {
       type: 'category',
-      data: months,
+      data: xLabels,
+      axisLabel: { color: '#ccc' },
+      axisLine: { lineStyle: { color: '#666' } }
     },
     yAxis: {
       type: 'value',
+      axisLabel: { color: '#ccc' },
+      axisLine: { lineStyle: { color: '#666' } },
+      splitLine: { lineStyle: { color: '#333' } }
     },
     series: [
-      ...categorySeries,
-      barSeries,
-      // lineSeries
+      {
+        name: 'Actual',
+        type: 'line',
+        symbol: 'circle',
+        symbolSize: 8,
+        lineStyle: {
+          color: '#f39c12',
+          width: 2,
+        },
+        itemStyle: {
+          color: '#f39c12',
+        },
+        data: actualValues,
+      },
+      {
+        name: 'Trend',
+        type: 'line',
+        smooth: true,
+        symbol: 'circle',
+        symbolSize: 8,
+        lineStyle: {
+          color: '#42b883',
+          width: 3,
+        },
+        itemStyle: {
+          color: '#42b883',
+        },
+        data: trendValues,
+      },
     ],
   }
 })
-
-
 </script>
 
 <style scoped>

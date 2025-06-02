@@ -15,7 +15,8 @@ const mkMK = {
   payment: {
     pending: 'Во очекување на уплата',
     paid: 'Платено',
-    total: 'Вкупно'
+    total: 'Вкупно',
+    unpaid: 'Неплатено'
   },
   income: {
     add: 'Додај прилив'
@@ -24,6 +25,7 @@ const mkMK = {
   logout: 'Одјави се',
   continue: 'Продолжи',
   totalPending: 'Вкупно од сите месеци',
+  totalUnpaid: 'Вкупно неплатени од сите месеци',
   placeholders: {
     login: {
       email: 'Вашата електронска пошта',
