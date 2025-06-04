@@ -5,6 +5,11 @@ const mkMK = {
     add: 'Додај имот',
     added: 'Постоечки имоти'
   },
+  ai: {
+    check: 'Анализирај со Вештачка Интелигенција',
+    summary: 'Кратка анализа',
+    analysing: 'Анализата е во тек'
+  },
   expenses: {
     check: 'Провери трошоци',
     add: 'Додај трошок за овој имот',
@@ -15,6 +20,7 @@ const mkMK = {
   payment: {
     pending: 'Во очекување на уплата',
     paid: 'Платено',
+    paidOn: 'Платено на {date}',
     total: 'Вкупно',
     unpaid: 'Неплатено'
   },
@@ -49,6 +55,13 @@ const mkMK = {
     email: 'Електронска пошта',
     password: 'Лозинка',
     phone: 'Телефон',
+  },
+  incomes: {
+    list: 'Примања',
+    categories: {
+      salary: 'Плата',
+      bonus: 'Бонус'
+    }
   },
   language: {
     en: 'Англиски',

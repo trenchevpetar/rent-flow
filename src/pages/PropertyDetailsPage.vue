@@ -1,28 +1,7 @@
 <template>
-  <TheGrid class="gap-4">
-    <TheColumn
-      :size="12"
-      :responsive="{ lg: 6 }"
-      class="content-center"
-    >
-      <h1 class="title text-2xl">
-        {{ cachedPropertyByRouteId?.name }}
-      </h1>
-    </TheColumn>
-    <TheColumn
-      :size="12"
-      :responsive="{ lg: 6 }"
-      class="text-right"
-    >
-      <button
-        v-if="authStore.isLoggedIn"
-        class="btn btn-primary"
-        @click="onAddExpense"
-      >
-        {{ t('expenses.add') }}
-      </button>
-    </TheColumn>
-  </TheGrid>
+  <h1 class="title text-2xl">
+    {{ cachedPropertyByRouteId?.name }}
+  </h1>
 
   <div class="divider divider-warning" />
 
@@ -30,29 +9,13 @@
 
   <ListPropertyExpenses
     v-if="expenses"
+    @on-add-expense="onAddExpense"
     @on-update-expense="onUpdateExpense"
     @on-delete-expense="onDeleteExpense"
     @on-edit-expense="onEditExpense"
     :loading-item-id="loadingItemId"
     :expenses="expenses"
   />
-
-  <GroqAnalysis
-    v-if="expenses"
-    :expenses="expenses"
-  />
-
-  <!--  <div-->
-  <!--    v-if="expenses && expenses.length"-->
-  <!--    class="p-4 list relative bg-base-100 rounded-box shadow-md mt-10"-->
-  <!--  >-->
-  <!--    <h2 class="title text-2xl">-->
-  <!--      Expenses in charts-->
-  <!--    </h2>-->
-  <!--    <ExpensesChart-->
-  <!--      :expenses="expenses"-->
-  <!--    />-->
-  <!--  </div>-->
 
   <TheModal
     title="Edit expense"
@@ -89,15 +52,10 @@ import {
 } from '@/features/AddProperty/services/expenses.service.ts';
 import type { Expenses } from '@/features/AddProperty/types/expenses.ts';
 import ListPropertyExpenses from '@/features/ListProperties/components/ListPropertyExpenses.vue';
-import { useAuthStore } from '@/features/Login/stores/useAuthStore.ts';
 import type { MessagesSchema } from '@/i18n/messages.ts';
-import TheColumn from '@/layouts/Grid/TheColumn.vue';
-import TheGrid from '@/layouts/Grid/TheGrid.vue';
-import GroqAnalysis from '@/shared/components/Groq/GroqAnalysis.vue';
 import TheModal from '@/shared/components/TheModal/TheModal.vue';
 import TheSpinner from '@/shared/components/TheSpinner/TheSpinner.vue';
 
-const authStore = useAuthStore();
 const route = useRoute()
 
 const { t } = useI18n<{ messages: MessagesSchema }>()
@@ -144,20 +102,6 @@ const updateMutation = useMutation({
     isEditModalActive.value = false;
   }
 })
-
-// const editMutation = useMutation({
-//   mutationFn: async (expense: Expenses) => {
-//     loadingItemId.value = expense.$id;
-//
-//     return await editExpenseById(expense.$id, expense)
-//   },
-//   onSuccess: () => {
-//     queryClient.invalidateQueries({ queryKey: ['expenses'] })
-//   },
-//   onSettled: () => {
-//     loadingItemId.value = null;
-//   }
-// })
 
 const onAddExpense = () => isModalActive.value = true
 const onExpenseAdded = () => isModalActive.value = false

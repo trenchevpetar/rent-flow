@@ -1,6 +1,6 @@
 <template>
   <h1 class="title text-2xl mb-4">
-    List Incomes
+    {{ t('incomes.list') }}
   </h1>
     
   <TheSkeletonCircleContent v-if="isPending" />
@@ -17,7 +17,7 @@
       <div class="card bg-base-100 shadow-sm mb-4">
         <div class="card-body">
           <TheStat
-            :title="income.type"
+            :title="t(`incomes.categories.${income.type.toLowerCase()}`)"
             :value="income.amount"
           >
             <template #image>
@@ -32,10 +32,12 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import CreditCardIcon from '@/assets/icons/CreditCardIcon.vue';
 import { useIncomes } from '@/features/ListIncomes/composables/useIncomes.ts';
 import { useAuthStore } from '@/features/Login/stores/useAuthStore.ts';
+import type { MessagesSchema } from '@/i18n/messages.ts';
 import TheColumn from '@/layouts/Grid/TheColumn.vue';
 import TheGrid from '@/layouts/Grid/TheGrid.vue';
 import TheSkeletonCircleContent from '@/shared/components/TheSkeleton/TheSkeletonCircleContent.vue';
@@ -44,4 +46,6 @@ import TheStat from '@/shared/components/TheStat/TheStat.vue';
 const authStore = useAuthStore();
 const propertyId = computed(() => authStore.currentUser?.$id || '');
 const { data: incomes, isPending } = useIncomes(propertyId.value);
+
+const { t } = useI18n<{ messages: MessagesSchema }>()
 </script>

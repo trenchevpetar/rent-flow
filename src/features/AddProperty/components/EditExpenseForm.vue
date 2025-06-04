@@ -25,7 +25,8 @@
 
       <InputDate
         v-model="formValues.date"
-        label="Date when expense is opened"
+        label="Date opened"
+        type="month"
       />
 
       <div class="flex w-full justify-end gap-2 mt-2">

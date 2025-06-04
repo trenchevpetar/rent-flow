@@ -5,6 +5,11 @@ const enUS = {
     add: 'Add property',
     added: 'Added properties'
   },
+  ai: {
+    check: 'Analyse with AI',
+    summary: 'AI Spending Summary',
+    analysing: 'Analyzing your expenses'
+  },
   expenses: {
     check: 'Check expenses',
     add: 'Add expense for this property',
@@ -15,6 +20,7 @@ const enUS = {
   payment: {
     pending: 'Pending payment',
     paid: 'Paid',
+    paidOn: 'Paid on {date}',
     total: 'Total',
     unpaid: 'Unpaid'
   },
@@ -49,6 +55,13 @@ const enUS = {
     email: 'Email',
     password: 'Password',
     phone: 'Phone'
+  },
+  incomes: {
+    list: 'List incomes',
+    categories: {
+      salary: 'Salary',
+      bonus: 'Bonus'
+    }
   },
   language: {
     en: 'English',

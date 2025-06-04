@@ -1,4 +1,14 @@
 <template>
+  <TheModal
+    :title="t('ai.check')"
+    v-model="shouldAIAnalyse"
+  >
+    <GroqAnalysis
+      v-if="expenses && shouldAIAnalyse"
+      :expenses="expenses"
+    />
+  </TheModal>
+  
   <ul class="list relative bg-base-100 rounded-box shadow-md">
     <li class="p-4 text-xs tracking-wide text-warning">
       <template v-if="expenses && expenses.length">
@@ -53,7 +63,9 @@
               <template #description>
                 <div class="flex items-center gap-1 text-sm">
                   <DollarIcon />
-                  <span v-if="expense.isPaid">{{ t('payment.paid') }}</span>
+                  <span v-if="expense.isPaid">
+                    {{ t('payment.paidOn', { date: useFormattedDate(expense.$updatedAt) }) }}
+                  </span>
                   <span v-else>{{ t('payment.pending') }}</span>
                 </div>
               </template>
@@ -111,31 +123,24 @@
           v-if="Object.keys(data.expenses).length > 1"
           class="mt-10 border border-white rounded-lg"
         >
-          <TheGrid>
-            <TheColumn
-              :size="12"
-              :responsive="{ sm: 12, md: 6, lg: 6 }"
-            >
-              <TheStat
-                :title="t('payment.total')"
-                :value="data.totalAmount"
-              />
-            </TheColumn>
-
-            <TheColumn
-              :size="12"
-              :responsive="{ sm: 12, md: 6, lg: 6 }"
-            >
-              <TheStat
-                :title="t('payment.unpaid')"
-                :value="data.totalUnpaid"
-              />
-            </TheColumn>
-          </TheGrid>
+          <ListPropertyExpensesFooter :expense="data" />
         </li>
       </template>
     </GroupedPropertyExpenses>
   </ul>
+
+  <FloatingBar
+    :actions="actions"
+    @expense="onAddExpense"
+    @ai="onAIAnalysis"
+  >
+    <template #expense>
+      {{ t('expenses.add') }}
+    </template>
+    <template #ai>
+      {{ t('ai.check') }}
+    </template>
+  </FloatingBar>
 </template>
 
 <script lang="ts" setup>
@@ -147,23 +152,36 @@ import HomeIcon from '@/assets/icons/HomeIcon.vue';
 import { expenseCategories } from '@/features/AddProperty/constants/expense.category.ts';
 import type { Expenses } from '@/features/AddProperty/types/expenses.ts';
 import GroupedPropertyExpenses from '@/features/ListProperties/components/GroupedPropertyExpenses.vue';
+import ListPropertyExpensesFooter from '@/features/ListProperties/components/ListPropertyExpensesFooter.vue';
 import { useAuthStore } from '@/features/Login/stores/useAuthStore.ts';
 import type { MessagesSchema } from '@/i18n/messages.ts';
 import TheColumn from '@/layouts/Grid/TheColumn.vue';
 import TheGrid from '@/layouts/Grid/TheGrid.vue';
+import FloatingBar from '@/shared/components/FloatingBar/FloatingBar.vue';
+import GroqAnalysis from '@/shared/components/Groq/GroqAnalysis.vue';
+import TheModal from '@/shared/components/TheModal/TheModal.vue';
 import TheSkeletonCircleContent from '@/shared/components/TheSkeleton/TheSkeletonCircleContent.vue';
 import TheStat from '@/shared/components/TheStat/TheStat.vue';
+import { useFormattedDate } from '@/shared/composables/useFormattedDate.ts';
 
 const authStore = useAuthStore();
 const activeIndex = ref('0')
 const { t } = useI18n<{ messages: MessagesSchema }>()
+const shouldAIAnalyse = ref(false)
+
+const actions = computed(() =>
+  [
+    authStore.isLoggedIn && { name: 'expense' },
+    { name: 'ai' }
+  ].filter(Boolean) as { name: string }[]
+);
 
 const props = defineProps<{
   expenses: Expenses[];
   loadingItemId: string | null;
 }>()
 
-const emit = defineEmits(['on-update-expense', 'on-delete-expense', 'on-edit-expense'])
+const emit = defineEmits(['on-add-expense', 'on-update-expense', 'on-delete-expense', 'on-edit-expense'])
 
 const totalAmountPendingPayment = computed(() =>
     props.expenses.reduce((sum, expense) => sum + expense.amount, 0)
@@ -181,6 +199,8 @@ const onUpdateExpense = (expense: Expenses) => emit('on-update-expense', {
 })
 const onDeleteExpense = (id: string) => emit('on-delete-expense', id)
 const onEditExpense = (id: string) => emit('on-edit-expense', id)
+const onAddExpense = () => emit('on-add-expense')
+const onAIAnalysis = () => shouldAIAnalyse.value = true
 
 const paidStyles = (isPaid: boolean) => {
   if (isPaid) return 'border-l-[10px] border-l-success mt-4'
