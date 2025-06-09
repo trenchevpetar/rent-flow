@@ -1,14 +1,4 @@
 <template>
-  <TheModal
-    :title="t('ai.check')"
-    v-model="shouldAIAnalyse"
-  >
-    <GroqAnalysis
-      v-if="expenses && shouldAIAnalyse"
-      :expenses="expenses"
-    />
-  </TheModal>
-  
   <ul class="list relative bg-base-100 rounded-box shadow-md">
     <li class="p-4 text-xs tracking-wide text-warning">
       <template v-if="expenses && expenses.length">
@@ -19,29 +9,10 @@
       </template>
     </li>
 
-    <TheGrid>
-      <TheColumn
-        :size="12"
-        :responsive="{ sm: 12, md: 6, lg: 6 }"
-      >
-        <TheStat
-          v-if="totalAmountPendingPayment"
-          :title="t('totalPending')"
-          :value="totalAmountPendingPayment"
-        />
-      </TheColumn>
-      
-      <TheColumn
-        :size="12"
-        :responsive="{ sm: 12, md: 6, lg: 6 }"
-      >
-        <TheStat
-          v-if="totalAmountUnpaid"
-          :title="t('totalUnpaid')"
-          :value="totalAmountUnpaid"
-        />
-      </TheColumn>
-    </TheGrid>
+    <ListPropertyExpensesHeader
+      :total-amount-pending-payment="totalAmountPendingPayment"
+      :total-amount-unpaid="totalAmountUnpaid"
+    />
 
     <GroupedPropertyExpenses
       v-model:active-index="activeIndex"
@@ -78,43 +49,20 @@
                 <HomeIcon v-else />
               </template>
               <template #actions>
-                <div
+                <ListPropertyExpensesActions
                   v-if="authStore.isLoggedIn"
-                  class="join"
-                >
-                  <button
-                    v-if="!expense.isPaid"
-                    class="btn btn-success btn-xs join-item"
-                    @click="onUpdateExpense({
-                      ...expense,
-                      isPaid: true
-                    })"
-                  >
-                    {{ t('actions.markAsPaid') }}
-                  </button>
-                  <button
-                    v-else
-                    class="btn btn-warning btn-xs join-item"
-                    @click="onUpdateExpense({
-                      ...expense,
-                      isPaid: false
-                    })"
-                  >
-                    {{ t('actions.markAsUnpaid') }}
-                  </button>
-                  <button
-                    class="btn btn-info btn-xs join-item"
-                    @click="onEditExpense(expense.$id)"
-                  >
-                    {{ t('actions.edit') }}
-                  </button>
-                  <button
-                    class="btn btn-error btn-xs join-item"
-                    @click="onDeleteExpense(expense.$id)"
-                  >
-                    {{ t('actions.delete') }}
-                  </button>
-                </div>
+                  :expense="expense"
+                  @on-mark-as-paid="onUpdateExpense({
+                    ...expense,
+                    isPaid: true
+                  })"
+                  @on-mark-as-unpaid="onUpdateExpense({
+                    ...expense,
+                    isPaid: false
+                  })"
+                  @on-edit="onEditExpense(expense.$id)"
+                  @on-delete="onDeleteExpense(expense.$id)"
+                />
               </template>
             </TheStat>
           </li>
@@ -129,6 +77,16 @@
     </GroupedPropertyExpenses>
   </ul>
 
+  <TheModal
+    :title="t('ai.check')"
+    v-model="shouldAIAnalyse"
+  >
+    <GroqAnalysis
+      v-if="expenses && shouldAIAnalyse"
+      :expenses="expenses"
+    />
+  </TheModal>
+  
   <FloatingBar
     :actions="actions"
     @expense="onAddExpense"
@@ -152,11 +110,11 @@ import HomeIcon from '@/assets/icons/HomeIcon.vue';
 import { expenseCategories } from '@/features/AddProperty/constants/expense.category.ts';
 import type { Expenses } from '@/features/AddProperty/types/expenses.ts';
 import GroupedPropertyExpenses from '@/features/ListProperties/components/GroupedPropertyExpenses.vue';
+import ListPropertyExpensesActions from '@/features/ListProperties/components/ListPropertyExpensesActions.vue';
 import ListPropertyExpensesFooter from '@/features/ListProperties/components/ListPropertyExpensesFooter.vue';
+import ListPropertyExpensesHeader from '@/features/ListProperties/components/ListPropertyExpensesHeader.vue';
 import { useAuthStore } from '@/features/Login/stores/useAuthStore.ts';
 import type { MessagesSchema } from '@/i18n/messages.ts';
-import TheColumn from '@/layouts/Grid/TheColumn.vue';
-import TheGrid from '@/layouts/Grid/TheGrid.vue';
 import FloatingBar from '@/shared/components/FloatingBar/FloatingBar.vue';
 import GroqAnalysis from '@/shared/components/Groq/GroqAnalysis.vue';
 import TheModal from '@/shared/components/TheModal/TheModal.vue';
@@ -194,9 +152,7 @@ const totalAmountUnpaid = computed(() =>
     )
 )
 
-const onUpdateExpense = (expense: Expenses) => emit('on-update-expense', {
-  ...expense,
-})
+const onUpdateExpense = (expense: Expenses) => emit('on-update-expense', expense)
 const onDeleteExpense = (id: string) => emit('on-delete-expense', id)
 const onEditExpense = (id: string) => emit('on-edit-expense', id)
 const onAddExpense = () => emit('on-add-expense')

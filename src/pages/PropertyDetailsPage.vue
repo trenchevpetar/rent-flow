@@ -109,7 +109,6 @@ const onExpenseAdded = () => isModalActive.value = false
 const onUpdateExpense = (expense: Expenses) => updateMutation.mutate(expense)
 const onDeleteExpense = (id: string) => deleteMutation.mutate(id)
 const onEditExpense = (id: string) => {
-  console.log(expenses.value);
   editableExpense.value = expenses.value?.find((expense: Expenses) => expense.$id === id)
   isEditModalActive.value = true;
 }

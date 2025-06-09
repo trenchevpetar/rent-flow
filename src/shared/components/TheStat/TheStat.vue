@@ -12,10 +12,7 @@
       <div class="stat-title text-accent">
         {{ title }}
       </div>
-      <div
-        v-if="value"
-        class="stat-value"
-      >
+      <div class="stat-value">
         {{ formattedValue }}
       </div>
       <div class="stat-desc mb-2 text-accent">

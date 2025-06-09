@@ -11,28 +11,46 @@
       <input
         class="input w-full focus:outline-none focus:ring-0 focus:border-transparent"
         :type="type"
-        v-model="model"
+        v-model="localValue"
+        @input="onInput"
       >
     </label>
   </fieldset>
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from 'vue';
+import { ref, watch } from 'vue'
 
-const model = defineModel<string>()
-function getCurrentMonth () : string {
-  const now = new Date();
+const model = defineModel<string | Date>()
+
+function getCurrentMonth (): string {
+  const now = new Date()
   return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`
 }
 
-const localValue = ref(!model.value ? getCurrentMonth() : model.value)
+function toMonthString (input: string | Date | undefined): string {
+  if (!input) return getCurrentMonth()
+  const date = typeof input === 'string' ? new Date(input) : input
+  if (isNaN(date.getTime())) return getCurrentMonth()
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`
+}
+
+function monthToISO (month: string): string {
+  return `${month}-01T00:00:00.000Z`
+}
+
+const localValue = ref(toMonthString(model.value))
 
 watch(model, (val) => {
-  if (val !== localValue.value) {
-    localValue.value = val ?? getCurrentMonth()
+  const formatted = toMonthString(val)
+  if (formatted !== localValue.value) {
+    localValue.value = formatted
   }
 })
+
+function onInput () {
+  model.value = monthToISO(localValue.value)
+}
 
 defineProps({
   label: {
@@ -41,7 +59,7 @@ defineProps({
   },
   type: {
     type: String,
-    default: 'date'
+    default: 'month'
   }
 })
 </script>
