@@ -9,6 +9,14 @@
     "types": ["node"],
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    "lib": ["esnext", "dom"],
+    "target": "ES2020",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "esModuleInterop": true,
+    "allowJs": true,
+    "strict": true,
+    "skipLibCheck": true
   }
 }

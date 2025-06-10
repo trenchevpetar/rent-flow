@@ -5,8 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:vercel": "vercel dev",
     "build": "vue-tsc -b && vite build",
     "preview": "vite preview",
+    "deploy": "vercel --prod",
     "lint": "eslint --ext .ts,.vue src",
     "generate-pwa-assets": "pwa-assets-generator"
   },
@@ -19,6 +21,7 @@
     "dayjs": "^1.11.13",
     "dompurify": "^3.2.6",
     "echarts": "^5.6.0",
+    "hono": "^4.7.11",
     "marked": "^15.0.12",
     "pinia": "^3.0.2",
     "pinia-plugin-persistedstate": "^4.3.0",
@@ -33,6 +36,7 @@
     "@types/node": "^22.15.21",
     "@typescript-eslint/eslint-plugin": "^8.32.1",
     "@typescript-eslint/parser": "^8.32.1",
+    "@vercel/node": "^5.2.1",
     "@vite-pwa/assets-generator": "^1.0.0",
     "@vitejs/plugin-vue": "^5.2.4",
     "@vue/tsconfig": "^0.7.0",
@@ -48,5 +52,6 @@
     "vite": "6.3.5",
     "vite-plugin-pwa": "^1.0.0",
     "vue-tsc": "^2.2.10"
-  }
+  },
+  "packageManager": "pnpm@10.11.0"
 }
