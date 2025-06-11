@@ -46,9 +46,10 @@ import { useMutation, useQueryClient } from '@tanstack/vue-query';
 import { ref } from 'vue';
 
 import { addProperty } from '@/features/AddProperty/services/property.service.ts';
-import type { Property } from '@/features/AddProperty/types/property.ts';
 import InputField from '@/shared/components/InputField/InputField.vue';
 import TheSpinner from '@/shared/components/TheSpinner/TheSpinner.vue';
+
+import type { Property } from '@/features/AddProperty/types/property.types.ts';
 
 const queryClient = useQueryClient();
 

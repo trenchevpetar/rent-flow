@@ -32,7 +32,7 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n';
 
-import type { Expenses } from '@/features/AddProperty/types/expenses.ts';
+import type { Expense } from '@/features/AddProperty/types/expense.types.ts';
 import type { MessagesSchema } from '@/i18n/messages.ts';
 
 const { t } = useI18n<{ messages: MessagesSchema }>()
@@ -44,6 +44,6 @@ const onEdit = () => emit('on-edit')
 const onDelete = () => emit('on-delete')
 
 defineProps<{
-  expense: Expenses
+  expense: Expense
 }>()
 </script>

@@ -1,14 +1,14 @@
 import { computed, type Ref } from 'vue'
 
-import type { Expenses } from '@/features/AddProperty/types/expenses.ts'
+import type { Expense } from '@/features/AddProperty/types/expense.types.ts'
 
 interface GroupedExpense {
   totalAmount: number
   totalUnpaid: number
-  expenses: Record<string, Expenses>
+  expenses: Record<string, Expense>
 }
 
-export function useGroupedExpenses (expenses: Ref<Expenses[]>) {
+export function useGroupedExpenses (expenses: Ref<Expense[]>) {
   const groupedByMonth = computed<Record<string, GroupedExpense>>(() => {
     const raw = expenses.value.reduce((result, expense) => {
       const month = new Date(expense.date).toISOString().slice(0, 7)

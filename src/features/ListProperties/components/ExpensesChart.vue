@@ -1,8 +1,8 @@
 <template>
   <v-chart
-      class="chart"
-      :option="chartOption"
-      autoresize
+    class="chart"
+    :option="chartOption"
+    autoresize
   />
 </template>
 
@@ -14,12 +14,12 @@ import {
   GridComponent,
   LegendComponent,
 } from 'echarts/components'
-import { CanvasRenderer } from 'echarts/renderers'
 import { use } from 'echarts/core'
+import { CanvasRenderer } from 'echarts/renderers'
 import { computed, toRef, provide } from 'vue'
 import VChart, { THEME_KEY } from 'vue-echarts'
 
-import type { Expenses } from '@/features/AddProperty/types/expenses.ts';
+import type { Expense } from '@/features/AddProperty/types/expense.types.ts';
 import { useGroupedExpenses } from '@/features/ListProperties/composables/useGroupedExpenses.ts'
 
 provide(THEME_KEY, 'dark')
@@ -33,7 +33,7 @@ use([
   LegendComponent,
 ])
 
-const props = defineProps<{ expenses: Expenses[] }>()
+const props = defineProps<{ expenses: Expense[] }>()
 const { groupedByMonth } = useGroupedExpenses(toRef(props, 'expenses'))
 
 const chartOption = computed(() => {

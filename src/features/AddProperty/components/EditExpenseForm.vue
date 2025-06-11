@@ -46,7 +46,7 @@
 import { computed, ref } from 'vue';
 
 import { expenseCategoriesForSelect } from '@/features/AddProperty/constants/expense.category.ts';
-import type { Expenses, UpdatableExpense } from '@/features/AddProperty/types/expenses.ts';
+import type { Expense, UpdatableExpense } from '@/features/AddProperty/types/expense.types.ts';
 import InputDate from '@/shared/components/InputDate/InputDate.vue';
 import InputField from '@/shared/components/InputField/InputField.vue';
 import InputSelect from '@/shared/components/InputSelect/InputSelect.vue';
@@ -54,7 +54,7 @@ import InputTextarea from '@/shared/components/InputTextarea/InputTextarea.vue';
 import TheSpinner from '@/shared/components/TheSpinner/TheSpinner.vue';
 
 const props = defineProps<{
-  expense: Expenses;
+  expense: Expense;
 }>();
 
 const emit = defineEmits(['on-edit-confirm'])

@@ -1,7 +1,7 @@
 import { ID, Query } from 'appwrite';
 
 import { CONFIG } from '@/config/config.ts';
-import type { Expenses, UpdatableExpense } from '@/features/AddProperty/types/expenses.ts';
+import type { Expense, UpdatableExpense } from '@/features/AddProperty/types/expense.types.ts';
 import { databases } from '@/shared/utils/api.ts';
 import { stripSystemFields } from '@/shared/utils/strip-system-fields.ts';
 
@@ -19,9 +19,9 @@ export async function addExpenseToProperty (expense: UpdatableExpense) {
   }
 }
 
-export async function getExpensesForProperty (propertyId: string): Promise<Expenses[]> {
+export async function getExpensesForProperty (propertyId: string): Promise<Expense[]> {
   try {
-    const response = await databases.listDocuments<Expenses>(
+    const response = await databases.listDocuments<Expense>(
       CONFIG.DATABASE_ID,
       CONFIG.COLLECTIONS.EXPENSES,
       [

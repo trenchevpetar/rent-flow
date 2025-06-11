@@ -50,7 +50,7 @@ import {
   getExpensesForProperty,
   updateExpenseByExpenseId
 } from '@/features/AddProperty/services/expenses.service.ts';
-import type { Expenses } from '@/features/AddProperty/types/expenses.ts';
+import type { Expense } from '@/features/AddProperty/types/expense.types.ts';
 import ListPropertyExpenses from '@/features/ListProperties/components/ListPropertyExpenses.vue';
 import type { MessagesSchema } from '@/i18n/messages.ts';
 import TheModal from '@/shared/components/TheModal/TheModal.vue';
@@ -90,7 +90,7 @@ const deleteMutation = useMutation({
 })
 
 const updateMutation = useMutation({
-  mutationFn: async (expense: Expenses) => {
+  mutationFn: async (expense: Expense) => {
     loadingItemId.value = expense.$id;
     return await updateExpenseByExpenseId(expense.$id, expense)
   },
@@ -106,12 +106,12 @@ const updateMutation = useMutation({
 const onAddExpense = () => isModalActive.value = true
 const onExpenseAdded = () => isModalActive.value = false
 
-const onUpdateExpense = (expense: Expenses) => updateMutation.mutate(expense)
+const onUpdateExpense = (expense: Expense) => updateMutation.mutate(expense)
 const onDeleteExpense = (id: string) => deleteMutation.mutate(id)
 const onEditExpense = (id: string) => {
-  editableExpense.value = expenses.value?.find((expense: Expenses) => expense.$id === id)
+  editableExpense.value = expenses.value?.find((expense: Expense) => expense.$id === id)
   isEditModalActive.value = true;
 }
 
-const onEditConfirm = (expense: Expenses) => updateMutation.mutate(expense)
+const onEditConfirm = (expense: Expense) => updateMutation.mutate(expense)
 </script>

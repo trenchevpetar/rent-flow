@@ -108,7 +108,7 @@ import { useI18n } from 'vue-i18n';
 import DollarIcon from '@/assets/icons/DollarIcon.vue';
 import HomeIcon from '@/assets/icons/HomeIcon.vue';
 import { expenseCategories } from '@/features/AddProperty/constants/expense.category.ts';
-import type { Expenses } from '@/features/AddProperty/types/expenses.ts';
+import type { Expense } from '@/features/AddProperty/types/expense.types.ts';
 import GroupedPropertyExpenses from '@/features/ListProperties/components/GroupedPropertyExpenses.vue';
 import ListPropertyExpensesActions from '@/features/ListProperties/components/ListPropertyExpensesActions.vue';
 import ListPropertyExpensesFooter from '@/features/ListProperties/components/ListPropertyExpensesFooter.vue';
@@ -135,7 +135,7 @@ const actions = computed(() =>
 );
 
 const props = defineProps<{
-  expenses: Expenses[];
+  expenses: Expense[];
   loadingItemId: string | null;
 }>()
 
@@ -152,7 +152,7 @@ const totalAmountUnpaid = computed(() =>
     )
 )
 
-const onUpdateExpense = (expense: Expenses) => emit('on-update-expense', expense)
+const onUpdateExpense = (expense: Expense) => emit('on-update-expense', expense)
 const onDeleteExpense = (id: string) => emit('on-delete-expense', id)
 const onEditExpense = (id: string) => emit('on-edit-expense', id)
 const onAddExpense = () => emit('on-add-expense')

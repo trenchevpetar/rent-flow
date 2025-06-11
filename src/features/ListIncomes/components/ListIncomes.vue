@@ -14,18 +14,16 @@
       :size="12"
       :responsive="{ sm: 12, md: 6, lg: 6 }"
     >
-      <div class="card bg-base-100 shadow-sm mb-4">
-        <div class="card-body">
-          <TheStat
-            :title="t(`incomes.categories.${income.type.toLowerCase()}`)"
-            :value="income.amount"
-          >
-            <template #image>
-              <CreditCardIcon />
-            </template>
-          </TheStat>
-        </div>
-      </div>
+      <TheCard>
+        <TheStat
+          :title="t(`incomes.categories.${income.type.toLowerCase()}`)"
+          :value="income.amount"
+        >
+          <template #image>
+            <CreditCardIcon />
+          </template>
+        </TheStat>
+      </TheCard>
     </TheColumn>
   </TheGrid>
 </template>
@@ -40,6 +38,7 @@ import { useAuthStore } from '@/features/Login/stores/useAuthStore.ts';
 import type { MessagesSchema } from '@/i18n/messages.ts';
 import TheColumn from '@/layouts/Grid/TheColumn.vue';
 import TheGrid from '@/layouts/Grid/TheGrid.vue';
+import TheCard from '@/shared/components/TheCard/TheCard.vue';
 import TheSkeletonCircleContent from '@/shared/components/TheSkeleton/TheSkeletonCircleContent.vue';
 import TheStat from '@/shared/components/TheStat/TheStat.vue';
 

@@ -25,12 +25,12 @@
 import { toRef } from 'vue';
 
 import CircleStackIcon from '@/assets/icons/CircleStackIcon.vue';
-import type { Expenses } from '@/features/AddProperty/types/expenses.ts';
+import type { Expense } from '@/features/AddProperty/types/expense.types.ts';
 import { useGroupedExpenses } from '@/features/ListProperties/composables/useGroupedExpenses.ts';
 
 const activeIndex = defineModel<string>('activeIndex')
 const props = defineProps<{
-  expenses: Expenses[];
+  expenses: Expense[];
 }>();
 
 const onChange = (index: string) => {

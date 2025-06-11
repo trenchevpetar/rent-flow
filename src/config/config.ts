@@ -7,6 +7,7 @@ export const CONFIG = {
     AGREEMENTS: 'agreements-collection',
     UNITS: 'units-collection',
     PROPERTIES: 'properties-collection',
-    USERS: 'users-collection'
+    USERS: 'users-collection',
+    SETTINGS: 'settings-collection'
   }
 } as const

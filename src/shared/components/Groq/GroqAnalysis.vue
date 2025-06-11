@@ -22,7 +22,7 @@ import { watch } from 'vue'
 import { useI18n } from 'vue-i18n';
 
 import AcademicCapIcon from '@/assets/icons/AcademicCapIcon.vue';
-import type { Expenses } from '@/features/AddProperty/types/expenses.ts';
+import type { Expense } from '@/features/AddProperty/types/expense.types.ts';
 import type { MessagesSchema } from '@/i18n/messages.ts';
 import { useGroqSummary } from '@/shared/components/Groq/composables/useGroqSummary.ts';
 import MarkdownViewer from '@/shared/components/MarkdownViewer/MarkdownViewer.vue';
@@ -30,7 +30,7 @@ import MarkdownViewer from '@/shared/components/MarkdownViewer/MarkdownViewer.vu
 const { t } = useI18n<{ messages: MessagesSchema }>()
 
 const props = defineProps<{
-  expenses: Expenses[]
+  expenses: Expense[]
 }>()
 
 const { summary, loading, analyzeExpenses } = useGroqSummary()

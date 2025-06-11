@@ -10,26 +10,24 @@
       :responsive="{ sm: 12, md: 6, lg: 4 }"
     >
       <TheSkeletonCircleContent v-if="isLoading" />
-      <div class="card bg-base-100 shadow-sm mb-4">
-        <div class="card-body">
-          <h2 class="card-title">
-            {{ property.name }}
-          </h2>
-          <ul>
-            <li>
-              {{ t('location') }}: {{ property.location }}
-            </li>
-          </ul>
-          <div class="card-actions justify-end">
-            <RouterLink
-              :to="`/property-details/${property.$id}`"
-              class="btn btn-primary"
-            >
-              {{ t('expenses.check') }}
-            </RouterLink>
-          </div>
-        </div>
-      </div>
+      <TheCard>
+        <template #title>
+          {{ property.name }}
+        </template>
+        <ul>
+          <li>
+            {{ t('location') }}: {{ property.location }}
+          </li>
+        </ul>
+        <template #actions>
+          <RouterLink
+            :to="`/property-details/${property.$id}`"
+            class="btn btn-primary"
+          >
+            {{ t('expenses.check') }}
+          </RouterLink>
+        </template>
+      </TheCard>
     </TheColumn>
   </TheGrid>
 </template>
@@ -42,6 +40,7 @@ import { useAuthStore } from '@/features/Login/stores/useAuthStore.ts';
 import type { MessagesSchema } from '@/i18n/messages.ts';
 import TheColumn from '@/layouts/Grid/TheColumn.vue';
 import TheGrid from '@/layouts/Grid/TheGrid.vue';
+import TheCard from '@/shared/components/TheCard/TheCard.vue';
 import TheSkeletonCircleContent from '@/shared/components/TheSkeleton/TheSkeletonCircleContent.vue';
 
 const authStore = useAuthStore();
