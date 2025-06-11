@@ -3,13 +3,13 @@ import { useI18n } from 'vue-i18n'
 
 import type { UpdatableExpense } from '@/features/AddProperty/types/expenses.ts'
 
-export function useGroqSummary() {
+export function useGroqSummary () {
   const summary = ref('')
   const loading = ref(false)
   const error = ref('')
   const { locale } = useI18n()
 
-  async function analyzeExpenses(expenses: UpdatableExpense[]) {
+  async function analyzeExpenses (expenses: UpdatableExpense[]) {
     loading.value = true
     error.value = ''
     summary.value = ''

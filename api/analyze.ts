@@ -1,6 +1,14 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 
-import type { UpdatableExpense } from '@/features/AddProperty/types/expenses';
+// import won't work on vercel
+interface UpdatableExpense {
+  propertyId: string;
+  category: string;
+  amount: number;
+  description: string;
+  date: string;
+  isPaid: boolean;
+}
 
 const chooseLocalePrompt = (expenses: UpdatableExpense[], locale: string) => {
   if (locale === 'mk-MK') {
