@@ -1,6 +1,6 @@
 import { computed, type Ref } from 'vue'
 
-import type { Expense } from '@/features/AddProperty/types/expense.types.ts'
+import type { Expense } from '@/features/Property/AddProperty/types/expense.types.ts'
 
 interface GroupedExpense {
   totalAmount: number

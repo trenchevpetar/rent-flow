@@ -25,7 +25,7 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 
-import type { UpdatableExpense } from '@/features/AddProperty/types/expense.types.ts';
+import type { UpdatableExpense } from '@/features/Property/AddProperty/types/expense.types.ts';
 import type { MessagesSchema } from '@/i18n/messages.ts';
 import TheColumn from '@/layouts/Grid/TheColumn.vue';
 import TheGrid from '@/layouts/Grid/TheGrid.vue';

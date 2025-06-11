@@ -26,7 +26,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { useRouter } from 'vue-router';
 
-import { useCachedProperties } from '@/features/AddProperty/composables/useCachedProperties.ts';
+import { useCachedProperties } from '@/features/Property/AddProperty/composables/useCachedProperties.ts';
 import type { MessagesSchema } from '@/i18n/messages.ts';
 import InputOtp from '@/shared/components/InputOtp/InputOtp.vue';
 import LanguageSwitcher from '@/shared/components/LanguageSwitcher/LanguageSwitcher.vue';

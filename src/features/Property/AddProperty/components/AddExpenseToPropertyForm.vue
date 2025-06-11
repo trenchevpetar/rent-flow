@@ -54,9 +54,9 @@ import { useMutation, useQueryClient } from '@tanstack/vue-query';
 import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
-import { expenseCategoriesForSelect } from '@/features/AddProperty/constants/expense.category.ts';
-import { addExpenseToProperty } from '@/features/AddProperty/services/expenses.service.ts';
-import type { UpdatableExpense } from '@/features/AddProperty/types/expense.types.ts';
+import { expenseCategoriesForSelect } from '@/features/Property/AddProperty/constants/expense.category.ts';
+import { addExpenseToProperty } from '@/features/Property/AddProperty/services/expenses.service.ts';
+import type { UpdatableExpense } from '@/features/Property/AddProperty/types/expense.types.ts';
 import InputDate from '@/shared/components/InputDate/InputDate.vue';
 import InputField from '@/shared/components/InputField/InputField.vue';
 import InputSelect from '@/shared/components/InputSelect/InputSelect.vue';

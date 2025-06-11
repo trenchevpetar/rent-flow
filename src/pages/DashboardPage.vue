@@ -46,10 +46,10 @@
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import AddPropertyForm from '@/features/AddProperty/components/AddPropertyForm.vue';
-import AddIncomeForm from '@/features/ListIncomes/components/AddIncomeForm.vue';
-import ListIncomes from '@/features/ListIncomes/components/ListIncomes.vue';
-import ListProperties from '@/features/ListProperties/components/ListProperties.vue';
+import AddIncomeForm from '@/features/Income/ListIncomes/components/AddIncomeForm.vue';
+import ListIncomes from '@/features/Income/ListIncomes/components/ListIncomes.vue';
+import AddPropertyForm from '@/features/Property/AddProperty/components/AddPropertyForm.vue';
+import ListProperties from '@/features/Property/ListProperties/components/ListProperties.vue';
 import type { MessagesSchema } from '@/i18n/messages.ts';
 import FloatingBar from '@/shared/components/FloatingBar/FloatingBar.vue';
 import TheModal from '@/shared/components/TheModal/TheModal.vue';

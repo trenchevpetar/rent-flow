@@ -40,8 +40,8 @@
 import { useMutation, useQueryClient } from '@tanstack/vue-query';
 import { ref } from 'vue';
 
-import { addIncome } from '@/features/ListIncomes/services/incomes.service.ts';
-import type { UpdatableIncome } from '@/features/ListIncomes/types/incomes.types.ts';
+import { addIncome } from '@/features/Income/ListIncomes/services/incomes.service.ts';
+import type { UpdatableIncome } from '@/features/Income/ListIncomes/types/incomes.types.ts';
 import InputDate from '@/shared/components/InputDate/InputDate.vue';
 import InputField from '@/shared/components/InputField/InputField.vue';
 import TheSpinner from '@/shared/components/TheSpinner/TheSpinner.vue';

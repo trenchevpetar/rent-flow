@@ -1,7 +1,7 @@
 import { ID, Query } from 'appwrite';
 
 import { CONFIG } from '@/config/config.ts';
-import type { Incomes, UpdatableIncome } from '@/features/ListIncomes/types/incomes.types.ts';
+import type { Incomes, UpdatableIncome } from '@/features/Income/ListIncomes/types/incomes.types.ts';
 import { useAuthStore } from '@/features/Login/stores/useAuthStore.ts';
 import { databases } from '@/shared/utils/api.ts';
 

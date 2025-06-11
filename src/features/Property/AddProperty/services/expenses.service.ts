@@ -1,7 +1,7 @@
 import { ID, Query } from 'appwrite';
 
 import { CONFIG } from '@/config/config.ts';
-import type { Expense, UpdatableExpense } from '@/features/AddProperty/types/expense.types.ts';
+import type { Expense, UpdatableExpense } from '@/features/Property/AddProperty/types/expense.types.ts';
 import { databases } from '@/shared/utils/api.ts';
 import { stripSystemFields } from '@/shared/utils/strip-system-fields.ts';
 

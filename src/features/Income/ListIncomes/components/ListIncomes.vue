@@ -33,7 +33,7 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import CreditCardIcon from '@/assets/icons/CreditCardIcon.vue';
-import { useIncomes } from '@/features/ListIncomes/composables/useIncomes.ts';
+import { useIncomes } from '@/features/Income/ListIncomes/composables/useIncomes.ts';
 import { useAuthStore } from '@/features/Login/stores/useAuthStore.ts';
 import type { MessagesSchema } from '@/i18n/messages.ts';
 import TheColumn from '@/layouts/Grid/TheColumn.vue';

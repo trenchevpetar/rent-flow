@@ -1,6 +1,6 @@
 import { useQuery, useQueryClient } from '@tanstack/vue-query';
 
-import { getPropertiesById } from '@/features/AddProperty/services/property.service.ts';
+import { getPropertiesById } from '@/features/Property/AddProperty/services/property.service.ts';
 
 export function useCachedProperties (queryKey: string, queryValue: string) {
   const queryClient = useQueryClient()

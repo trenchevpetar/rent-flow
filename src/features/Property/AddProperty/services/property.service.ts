@@ -2,9 +2,8 @@ import { ID, Query } from 'appwrite'
 
 import { CONFIG } from '@/config/config.ts';
 import { useAuthStore } from '@/features/Login/stores/useAuthStore.ts';
+import type { Property } from '@/features/Property/AddProperty/types/property.types.ts';
 import { databases } from '@/shared/utils/api.ts';
-
-import type { Property } from '@/features/AddProperty/types/property.types.ts';
 
 export async function addProperty (property: Property) {
   const authStore = useAuthStore();

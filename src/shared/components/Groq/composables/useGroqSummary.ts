@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
-import type { UpdatableExpense } from '@/features/AddProperty/types/expense.types.ts'
+import type { UpdatableExpense } from '@/features/Property/AddProperty/types/expense.types.ts'
 
 export function useGroqSummary () {
   const summary = ref('')

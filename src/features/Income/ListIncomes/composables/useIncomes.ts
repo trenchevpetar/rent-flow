@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/vue-query';
 import { computed } from 'vue';
 
-import { getIncomes } from '@/features/ListIncomes/services/incomes.service.ts';
+import { getIncomes } from '@/features/Income/ListIncomes/services/incomes.service.ts';
 
 export function useIncomes (propertyId: string) {
   return useQuery({

@@ -19,8 +19,8 @@ import { CanvasRenderer } from 'echarts/renderers'
 import { computed, toRef, provide } from 'vue'
 import VChart, { THEME_KEY } from 'vue-echarts'
 
-import type { Expense } from '@/features/AddProperty/types/expense.types.ts';
-import { useGroupedExpenses } from '@/features/ListProperties/composables/useGroupedExpenses.ts'
+import type { Expense } from '@/features/Property/AddProperty/types/expense.types.ts';
+import { useGroupedExpenses } from '@/features/Property/ListProperties/composables/useGroupedExpenses.ts'
 
 provide(THEME_KEY, 'dark')
 

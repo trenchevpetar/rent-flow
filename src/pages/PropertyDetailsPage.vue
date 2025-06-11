@@ -42,16 +42,16 @@ import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 
-import AddExpenseToPropertyForm from '@/features/AddProperty/components/AddExpenseToPropertyForm.vue';
-import EditExpenseForm from '@/features/AddProperty/components/EditExpenseForm.vue';
-import { useCachedProperties } from '@/features/AddProperty/composables/useCachedProperties.ts';
+import AddExpenseToPropertyForm from '@/features/Property/AddProperty/components/AddExpenseToPropertyForm.vue';
+import EditExpenseForm from '@/features/Property/AddProperty/components/EditExpenseForm.vue';
+import { useCachedProperties } from '@/features/Property/AddProperty/composables/useCachedProperties.ts';
 import {
   deleteExpense,
   getExpensesForProperty,
   updateExpenseByExpenseId
-} from '@/features/AddProperty/services/expenses.service.ts';
-import type { Expense } from '@/features/AddProperty/types/expense.types.ts';
-import ListPropertyExpenses from '@/features/ListProperties/components/ListPropertyExpenses.vue';
+} from '@/features/Property/AddProperty/services/expenses.service.ts';
+import type { Expense } from '@/features/Property/AddProperty/types/expense.types.ts';
+import ListPropertyExpenses from '@/features/Property/ListProperties/components/ListPropertyExpenses.vue';
 import type { MessagesSchema } from '@/i18n/messages.ts';
 import TheModal from '@/shared/components/TheModal/TheModal.vue';
 import TheSpinner from '@/shared/components/TheSpinner/TheSpinner.vue';

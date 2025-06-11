@@ -35,8 +35,8 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n';
 
-import { useCachedProperties } from '@/features/AddProperty/composables/useCachedProperties.ts';
 import { useAuthStore } from '@/features/Login/stores/useAuthStore.ts';
+import { useCachedProperties } from '@/features/Property/AddProperty/composables/useCachedProperties.ts';
 import type { MessagesSchema } from '@/i18n/messages.ts';
 import TheColumn from '@/layouts/Grid/TheColumn.vue';
 import TheGrid from '@/layouts/Grid/TheGrid.vue';

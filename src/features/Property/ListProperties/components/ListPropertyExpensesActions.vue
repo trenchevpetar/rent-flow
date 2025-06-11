@@ -32,7 +32,7 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n';
 
-import type { Expense } from '@/features/AddProperty/types/expense.types.ts';
+import type { Expense } from '@/features/Property/AddProperty/types/expense.types.ts';
 import type { MessagesSchema } from '@/i18n/messages.ts';
 
 const { t } = useI18n<{ messages: MessagesSchema }>()
