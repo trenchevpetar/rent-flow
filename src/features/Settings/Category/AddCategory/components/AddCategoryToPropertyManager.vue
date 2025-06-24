@@ -40,15 +40,14 @@
 import { XMarkIcon } from '@heroicons/vue/24/solid'
 import { ref, computed, onMounted, watch } from 'vue'
 
-import { CONFIG } from '@/config/config.ts'
 import { useAuthStore } from '@/features/Login/stores/useAuthStore.ts'
 import {
   getAllCategories,
   addCategoryToProperty,
   removeCategoryFromProperty,
+  refetchCategories
 } from '@/features/Settings/Category/AddCategory/services/category.service.ts'
 import type { Category } from '@/features/Settings/Category/AddCategory/types/category.type.ts'
-import { databases } from '@/shared/utils/api.ts'
 
 const props = defineProps<{
   label: string
@@ -135,15 +134,7 @@ async function handleCustomCategory () {
 }
 
 async function refreshSelectedCategories () {
-  try {
-    const property = await databases.getDocument(
-        CONFIG.DATABASE_ID,
-        CONFIG.COLLECTIONS.PROPERTIES,
-        props.propertyId
-    )
-    selectedCategoryIds.value = property.categoryIds || []
-  } catch (err) {
-    console.error('Error refreshing category IDs:', err)
-  }
+  const property = await refetchCategories(props.propertyId)
+  selectedCategoryIds.value = property?.categoryIds || []
 }
 </script>

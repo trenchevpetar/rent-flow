@@ -144,6 +144,18 @@ export async function getAllCategories (userId: string): Promise<Category[]> {
   }
 }
 
+export async function refetchCategories (propertyId: string) {
+  try {
+    return await databases.getDocument(
+      CONFIG.DATABASE_ID,
+      CONFIG.COLLECTIONS.PROPERTIES,
+      propertyId
+    )
+  } catch (err) {
+    console.error('Error refreshing category IDs:', err)
+  }
+}
+
 export async function resolveCategoryLabels (
   userId: string,
   categoryIds: string[]
