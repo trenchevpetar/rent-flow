@@ -10,6 +10,7 @@
     :id="computedID"
     :type="type"
     :placeholder="placeholder"
+    :readonly="readonly"
     class="input w-full"
   >
 </template>
@@ -35,6 +36,10 @@ const props = defineProps({
   placeholder: {
     type: String,
     default: ''
+  },
+  readonly: {
+    type: Boolean,
+    default: false
   }
 })
 

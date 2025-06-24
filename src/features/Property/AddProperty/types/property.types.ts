@@ -6,3 +6,5 @@ export type Property = Partial<Models.Document> & {
   ownerId: string;
   units: number;
 }
+
+export type UpdatableProperty = Partial<Omit<Models.Document, '$id' | '$createdAt' | '$updatedAt' | '$collectionId' | '$databaseId' | '$permissions'>>;

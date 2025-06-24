@@ -82,6 +82,9 @@ const enUS = {
       correct: 'Correct PIN! Redirecting..',
       invalid: 'Invalid PIN, try again'
     }
+  },
+  settings: {
+    label: 'Settings'
   }
 }
 

@@ -23,6 +23,13 @@ export const routes = [
     }
   },
   {
+    path: '/settings',
+    component: () => import('@/pages/SettingsPage.vue'),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
     path: '/gate',
     component: PinGuardPage,
   },

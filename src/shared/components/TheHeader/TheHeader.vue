@@ -8,6 +8,7 @@
         Rent Flow
       </RouterLink>
     </div>
+    <MenuList v-if="authStore.isLoggedIn" />
     <LanguageSwitcher />
     <button
       v-if="authStore.isLoggedIn"
@@ -29,6 +30,7 @@ import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/features/Login/stores/useAuthStore.ts';
 import type { MessagesSchema } from '@/i18n/messages.ts';
 import LanguageSwitcher from '@/shared/components/LanguageSwitcher/LanguageSwitcher.vue';
+import MenuList from '@/shared/components/TheHeader/MenuList.vue';
 import TheSpinner from '@/shared/components/TheSpinner/TheSpinner.vue';
 
 const router = useRouter()

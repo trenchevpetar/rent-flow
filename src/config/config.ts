@@ -8,6 +8,7 @@ export const CONFIG = {
     UNITS: 'units-collection',
     PROPERTIES: 'properties-collection',
     USERS: 'users-collection',
-    SETTINGS: 'settings-collection'
+    SETTINGS: 'settings-collection',
+    CATEGORIES: 'categories-collection'
   }
 } as const

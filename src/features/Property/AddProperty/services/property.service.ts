@@ -3,6 +3,7 @@ import { ID, Query } from 'appwrite'
 import { CONFIG } from '@/config/config.ts';
 import { useAuthStore } from '@/features/Login/stores/useAuthStore.ts';
 import type { Property } from '@/features/Property/AddProperty/types/property.types.ts';
+import type { Category } from '@/features/Settings/Category/AddCategory/types/category.type.ts';
 import { databases } from '@/shared/utils/api.ts';
 
 export async function addProperty (property: Property) {
@@ -42,23 +43,13 @@ export async function getPropertiesById (key: string, value: string) {
   }
 }
 
-export async function getPropertiesByOwnerId () {
-  const authStore = useAuthStore();
-  const ownerId = authStore.currentUser?.$id;
-
-  if (ownerId) {
-    try {
-      const response = await databases.listDocuments(
-        CONFIG.DATABASE_ID,
-        CONFIG.COLLECTIONS.PROPERTIES,
-        [
-          Query.equal('ownerId', ownerId)
-        ]
-      )
-
-      return response.documents;
-    } catch (err) {
-      console.log('error getting properties by owner id', err);
-    }
+export async function updatePropertyCategories (propertyId: string, categories: Category[]) {
+  try {
+    await databases.updateDocument(CONFIG.DATABASE_ID, CONFIG.COLLECTIONS.PROPERTIES, propertyId, {
+      categories
+    })
+  } catch (err) {
+    console.log(err);
+    throw err;
   }
 }
