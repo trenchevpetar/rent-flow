@@ -120,9 +120,8 @@ import HomeIcon from '@/assets/icons/HomeIcon.vue';
 import { useAuthStore } from '@/features/Login/stores/useAuthStore.ts';
 import type { Expense } from '@/features/Property/AddProperty/types/expense.types.ts';
 import {
-  getAllCategories,
-  refetchCategories, resolveCategoriesByIds,
-  resolveCategoryLabels
+  refetchCategories,
+  resolveCategoriesByIds,
 } from '@/features/Property/Categories/services/category.service.ts';
 import type { Category } from '@/features/Property/Categories/types/category.type.ts';
 import GroupedPropertyExpenses from '@/features/Property/ListProperties/components/GroupedPropertyExpenses.vue';
@@ -146,7 +145,6 @@ const shouldAIAnalyse = ref(false)
 const allCategories = ref()
 const resolvedCategories = ref()
 
-const userId = computed(() => authStore.currentUser?.$id)
 const propertyId = computed(() => route.params.id as string)
 const categoryLoading = ref(false)
 const categoryObjectByLabel = (id: string) => {
@@ -198,13 +196,6 @@ onMounted(async () => {
   allCategories.value = await refetchCategories(propertyId.value)
   resolvedCategories.value = await resolveCategoriesByIds(allCategories.value.categoryIds)
   categoryLoading.value = false;
-  //
-  // let res = null;
-  // res = await resolveCategoryLabels(userId.value, ['landscaping'])
-  // console.log(res);
-
-  // const res = await getAllCategories(userId.value)
-  // console.log(res);
 })
 
 const paidStyles = (isPaid: boolean) => {
