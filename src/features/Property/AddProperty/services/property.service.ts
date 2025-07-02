@@ -3,7 +3,7 @@ import { ID, Query } from 'appwrite'
 import { CONFIG } from '@/config/config.ts';
 import { useAuthStore } from '@/features/Login/stores/useAuthStore.ts';
 import type { Property } from '@/features/Property/AddProperty/types/property.types.ts';
-import type { Category } from '@/features/Settings/Category/AddCategory/types/category.type.ts';
+import type { Category } from '@/features/Property/Categories/types/category.type.ts';
 import { databases } from '@/shared/utils/api.ts';
 
 export async function addProperty (property: Property) {

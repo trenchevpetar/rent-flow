@@ -1,8 +1,8 @@
 import { ID, Query } from 'appwrite'
 
 import { CONFIG } from '@/config/config.ts';
-import { defaultCategories } from '@/features/Settings/Category/AddCategory/constants/defaultCategories.ts';
-import type { Category } from '@/features/Settings/Category/AddCategory/types/category.type.ts';
+import { defaultCategories } from '@/features/Property/Categories/constants/defaultCategories.ts';
+import type { Category } from '@/features/Property/Categories/types/category.type.ts';
 import { databases } from '@/shared/utils/api.ts';
 
 function needsDatabaseCreation (category: Category | Omit<Category, 'id'>): boolean | string {
@@ -78,6 +78,43 @@ export async function addCategoryToProperty (
   } catch (err) {
     console.error('Failed to add category to property:', err);
     throw err;
+  }
+}
+
+export async function updateCategory (
+  categoryId: string,
+  updates: Partial<Pick<Category, 'label' | 'icon' | 'color'>>
+): Promise<Category> {
+  try {
+    const existingCategory = await databases.getDocument(
+      CONFIG.DATABASE_ID,
+      CONFIG.COLLECTIONS.CATEGORIES,
+      categoryId
+    )
+
+    const updatedData = {
+      name: updates.label ?? existingCategory.name,
+      icon: updates.icon ?? existingCategory.icon,
+      color: updates.color ?? existingCategory.color,
+    }
+
+    const response = await databases.updateDocument(
+      CONFIG.DATABASE_ID,
+      CONFIG.COLLECTIONS.CATEGORIES,
+      categoryId,
+      updatedData
+    )
+
+    return {
+      id: response.$id,
+      label: response.name,
+      icon: response.icon,
+      color: response.color,
+      isCustom: response.isCustom ?? false,
+    }
+  } catch (err) {
+    console.error('Failed to update category:', err)
+    throw err
   }
 }
 

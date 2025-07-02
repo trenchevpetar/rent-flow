@@ -23,13 +23,6 @@ export const routes = [
     }
   },
   {
-    path: '/settings',
-    component: () => import('@/pages/SettingsPage.vue'),
-    meta: {
-      requiresAuth: true
-    }
-  },
-  {
     path: '/gate',
     component: PinGuardPage,
   },
@@ -52,6 +45,13 @@ export const routes = [
         path: '/gate',
         query: { id },
       };
+    }
+  },
+  {
+    path: '/property-categories/:id',
+    component: () => import('@/pages/PropertyCategoriesPage.vue'),
+    meta: {
+      requiresAuth: true
     }
   },
   {
