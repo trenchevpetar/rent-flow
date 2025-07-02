@@ -85,7 +85,6 @@ const propertyQuery = useQuery({
   queryKey: ['property-categories', props.propertyId],
   queryFn: () => refetchCategories(props.propertyId),
   enabled: computed(() => !!props.propertyId),
-  staleTime: 60 * 1000, // 1 minute
 })
 
 // Mutation for adding category to property

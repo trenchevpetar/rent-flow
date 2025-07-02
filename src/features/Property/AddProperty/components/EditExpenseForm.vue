@@ -81,8 +81,6 @@ const propertyCategoriesQuery = useQuery({
   queryKey: ['property-categories', propertyId.value],
   queryFn: () => refetchCategories(propertyId.value),
   enabled: computed(() => !!propertyId.value),
-  staleTime: 60 * 1000, // 1 min stale
-  retry: 3
 })
 
 watch(

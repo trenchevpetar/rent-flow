@@ -148,81 +148,31 @@ export async function removeCategoryFromProperty (
   }
 }
 
-/**
- * Fetches a single category object by label.
- * Tries to get it from Appwrite (custom or default categories),
- * falls back to local defaultCategories if not found.
- * Returns undefined if category is not found.
- */
-export async function getCategoryByLabel (
-  userId: string,
-  label: string
-): Promise<Category | undefined> {
-  try {
-    const response = await databases.listDocuments(
-      CONFIG.DATABASE_ID,
-      CONFIG.COLLECTIONS.CATEGORIES,
-      [
-        Query.equal('name', label),
-        Query.or([
-          Query.equal('userId', userId),
-          Query.isNull('userId')
-        ])
-      ]
-    );
+export async function getAllCategories (userId?: string): Promise<Category[]> {
+  const queries = userId
+    ? [Query.or([Query.equal('userId', userId), Query.isNull('userId')])]
+    : [Query.isNull('userId')]
 
-    if (response.documents.length > 0) {
-      const doc = response.documents[0];
-      return {
-        id: doc.$id,
-        label: doc.name,
-        icon: doc.icon,
-        color: doc.color,
-        isCustom: doc.isCustom || false,
-      };
-    }
+  const response = await databases.listDocuments(
+    CONFIG.DATABASE_ID,
+    CONFIG.COLLECTIONS.CATEGORIES,
+    queries
+  );
 
-    // fallback to defaultCategories if not found in DB
-    return defaultCategories.find(
-      cat => cat.label.toLowerCase() === label.toLowerCase()
-    );
-  } catch (err) {
-    console.error('Failed to get category by label:', err);
-    throw err;
-  }
-}
+  const dbCategories = response.documents.map(doc => ({
+    id: doc.$id,
+    label: doc.name,
+    icon: doc.icon,
+    color: doc.color,
+    isCustom: doc.isCustom || false
+  }));
 
-export async function getAllCategories (userId: string): Promise<Category[]> {
-  try {
-    const response = await databases.listDocuments(
-      CONFIG.DATABASE_ID,
-      CONFIG.COLLECTIONS.CATEGORIES,
-      [
-        Query.or([
-          Query.equal('userId', userId),
-          Query.isNull('userId')
-        ])
-      ]
-    );
+  const existingLabels = new Set(dbCategories.map(cat => cat.label.toLowerCase()));
+  const missingDefaults = defaultCategories.filter(
+    defaultCat => !existingLabels.has(defaultCat.label.toLowerCase())
+  );
 
-    const dbCategories = response.documents.map(doc => ({
-      id: doc.$id,
-      label: doc.name,
-      icon: doc.icon,
-      color: doc.color,
-      isCustom: doc.isCustom || false
-    }));
-
-    const existingLabels = new Set(dbCategories.map(cat => cat.label.toLowerCase()));
-    const missingDefaults = defaultCategories.filter(
-      defaultCat => !existingLabels.has(defaultCat.label.toLowerCase())
-    );
-
-    return [...dbCategories, ...missingDefaults];
-  } catch (err) {
-    console.error('Failed to get categories:', err);
-    throw err;
-  }
+  return [...dbCategories, ...missingDefaults];
 }
 
 export async function refetchCategories (propertyId: string) {
@@ -238,14 +188,45 @@ export async function refetchCategories (propertyId: string) {
 }
 
 export async function resolveCategoryLabels (
-  userId: string,
+  userId: string | undefined,
   categoryIds: string[]
 ): Promise<Category[]> {
   const allCategories = await getAllCategories(userId);
-  const categoryMap = new Map(allCategories.map((cat) => [cat.id, cat]));
+  const categoryMap = new Map(allCategories.map(cat => [cat.id, cat]));
 
   return categoryIds
-    .map((id) => categoryMap.get(id))
+    .map(id => categoryMap.get(id))
     .filter((cat): cat is Category => Boolean(cat));
 }
+
+export async function resolveCategoriesByIds (categoryIds: string[]): Promise<Category[]> {
+  if (!categoryIds.length) return [];
+
+  // Step 1: Try fetching all Appwrite categories (custom + default in DB)
+  const dbResponse = await databases.listDocuments(
+    CONFIG.DATABASE_ID,
+    CONFIG.COLLECTIONS.CATEGORIES,
+    [Query.contains('$id', categoryIds)]
+  );
+
+  const dbCategories = dbResponse.documents.map((doc) => ({
+    id: doc.$id,
+    label: doc.name,
+    icon: doc.icon,
+    color: doc.color,
+    isCustom: !!doc.isCustom,
+  }));
+
+  const dbCategoryIds = new Set(dbCategories.map((cat) => cat.id));
+
+  // Step 2: Add any default category from frontend if not found in DB
+  const fallbackDefaults = defaultCategories.filter((defaultCat) =>
+    defaultCat.id !== undefined &&
+    categoryIds.includes(defaultCat.id) &&
+    !dbCategoryIds.has(defaultCat.id)
+  );
+
+  return [...dbCategories, ...fallbackDefaults];
+}
+
 
