@@ -10,4 +10,6 @@ export const defaultCategories: Category[] = [
   { id: 'internet', label: 'Internet', isCustom: false, icon: 'CursorArrowRaysIcon' },
   { id: 'security', label: 'Security', isCustom: false, icon: 'LockClosedIcon' },
   { id: 'landscaping', label: 'Landscaping', isCustom: false, icon: 'BuildingOfficeIcon' },
+  { id: 'loan', label: 'Loan', isCustom: false, icon: 'ClipboardDocumentListIcon' },
+  { id: 'default', label: 'Default', isCustom: false, icon: 'DocumentIcon' },
 ]

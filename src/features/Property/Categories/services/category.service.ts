@@ -148,6 +148,50 @@ export async function removeCategoryFromProperty (
   }
 }
 
+/**
+ * Fetches a single category object by label.
+ * Tries to get it from Appwrite (custom or default categories),
+ * falls back to local defaultCategories if not found.
+ * Returns undefined if category is not found.
+ */
+export async function getCategoryByLabel (
+  userId: string,
+  label: string
+): Promise<Category | undefined> {
+  try {
+    const response = await databases.listDocuments(
+      CONFIG.DATABASE_ID,
+      CONFIG.COLLECTIONS.CATEGORIES,
+      [
+        Query.equal('name', label),
+        Query.or([
+          Query.equal('userId', userId),
+          Query.isNull('userId')
+        ])
+      ]
+    );
+
+    if (response.documents.length > 0) {
+      const doc = response.documents[0];
+      return {
+        id: doc.$id,
+        label: doc.name,
+        icon: doc.icon,
+        color: doc.color,
+        isCustom: doc.isCustom || false,
+      };
+    }
+
+    // fallback to defaultCategories if not found in DB
+    return defaultCategories.find(
+      cat => cat.label.toLowerCase() === label.toLowerCase()
+    );
+  } catch (err) {
+    console.error('Failed to get category by label:', err);
+    throw err;
+  }
+}
+
 export async function getAllCategories (userId: string): Promise<Category[]> {
   try {
     const response = await databases.listDocuments(

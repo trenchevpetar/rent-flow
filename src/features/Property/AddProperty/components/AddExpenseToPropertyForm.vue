@@ -5,9 +5,13 @@
   >
     <TheSpinner :is-loading="isPending" />
     <fieldset class="fieldset w-full">
+      <pre>
+        {{ categories }}
+      </pre>
+
       <InputSelect
         v-model="formValues.category"
-        :items="expenses"
+        :items="formattedCategories"
         default-value="Expense type"
         label="Expense categories"
       />
@@ -50,13 +54,16 @@
 </template>
 
 <script lang="ts" setup>
-import { useMutation, useQueryClient } from '@tanstack/vue-query';
-import { computed, ref } from 'vue';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/vue-query';
+import { computed, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
+import { useAuthStore } from '@/features/Login/stores/useAuthStore.ts';
 import { expenseCategoriesForSelect } from '@/features/Property/AddProperty/constants/expense.category.ts';
 import { addExpenseToProperty } from '@/features/Property/AddProperty/services/expenses.service.ts';
 import type { UpdatableExpense } from '@/features/Property/AddProperty/types/expense.types.ts';
+import { refetchCategories, resolveCategoryLabels } from '@/features/Property/Categories/services/category.service.ts';
+import type { Category } from '@/features/Property/Categories/types/category.type.ts';
 import InputDate from '@/shared/components/InputDate/InputDate.vue';
 import InputField from '@/shared/components/InputField/InputField.vue';
 import InputSelect from '@/shared/components/InputSelect/InputSelect.vue';
@@ -64,6 +71,7 @@ import InputTextarea from '@/shared/components/InputTextarea/InputTextarea.vue';
 import TheSpinner from '@/shared/components/TheSpinner/TheSpinner.vue';
 
 const emit = defineEmits(['on-add-expense'])
+const authStore = useAuthStore()
 const route = useRoute()
 const queryClient = useQueryClient();
 const formValues = ref<UpdatableExpense>({
@@ -76,6 +84,10 @@ const formValues = ref<UpdatableExpense>({
 })
 const isLoading = ref(false);
 const expenses = computed(() => expenseCategoriesForSelect())
+const propertyId = computed(() => route.params.id as string)
+const userId = computed(() => authStore.currentUser?.$id || '')
+const categories = ref()
+const formattedCategories = ref()
 
 const { mutate: addExpense, isPending } = useMutation({
   mutationFn: addExpenseToProperty,
@@ -85,10 +97,31 @@ const { mutate: addExpense, isPending } = useMutation({
   }
 })
 
+const propertyCategoriesQuery = useQuery({
+  queryKey: ['property-categories', propertyId.value],
+  queryFn: () => refetchCategories(propertyId.value),
+  enabled: computed(() => !!propertyId.value),
+  staleTime: 60 * 1000, // 1 min stale
+  retry: 3
+})
+
+watch(
+  () => propertyCategoriesQuery.data.value?.categoryIds,
+  async (newCategoryIds) => {
+    if (newCategoryIds) {
+      categories.value = await resolveCategoryLabels(userId.value, newCategoryIds)
+      formattedCategories.value = categories.value.map((category: Category) => ({
+        value: category.id,
+        label: category.label
+      }))
+    }
+  }
+)
+
 const onAddExpenseToProperty = async () => {
   addExpense({
     ...formValues.value,
-    propertyId: route.params.id.toString()
+    propertyId: propertyId.value
   })
 }
 </script>

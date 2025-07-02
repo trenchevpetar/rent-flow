@@ -17,7 +17,7 @@
       <button
         v-for="cat in allCategories"
         :key="cat.id"
-        class="btn btn-sm transition-all"
+        class="btn btn-sm transition-all whitespace-nowrap"
         :class="{
           'btn-outline': !isSelected(cat),
           'btn-accent': isSelected(cat),

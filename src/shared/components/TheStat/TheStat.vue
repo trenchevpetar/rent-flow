@@ -10,7 +10,9 @@
         </div>
       </div>
       <div class="stat-title text-accent">
-        {{ title }}
+        <slot name="title">
+          {{ title }}
+        </slot>
       </div>
       <div class="stat-value">
         {{ formattedValue }}

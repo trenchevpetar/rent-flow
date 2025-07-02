@@ -24,13 +24,22 @@
             v-for="(expense) in data.expenses"
             :key="`${loadingItemId}-${expense.$id}`"
           >
-            <TheSkeletonCircleContent v-if="expense.$id === loadingItemId" />
+            <TheSkeletonCircleContent v-if="expense.$id === loadingItemId || categoryLoading" />
             <TheStat
-              v-else
-              :title="expense.category"
+              v-else-if="categoryObjectByLabel(expense.category)"
+              :title="categoryObjectByLabel(expense.category).label"
               :value="expense.amount"
               :class="paidStyles(expense.isPaid)"
             >
+              <template #title>
+                <div
+                  class="badge"
+                  :class="{ 'badge-warning' : !categoryObjectByLabel(expense.category).color }"
+                  :style="{ 'color': categoryObjectByLabel(expense.category).color }"
+                >
+                  {{ categoryObjectByLabel(expense.category).label }}
+                </div>
+              </template>
               <template #description>
                 <div class="flex items-center gap-1 text-sm">
                   <DollarIcon />
@@ -41,11 +50,11 @@
                 </div>
               </template>
               <template #image>
-                <img
-                  v-if="expenseCategories[expense.category as keyof typeof expenseCategories]?.imageUrl"
-                  :src="expenseCategories[expense.category as keyof typeof expenseCategories].imageUrl"
-                  :alt="expenseCategories[expense.category as keyof typeof expenseCategories].label"
-                >
+                <TheIcon
+                  v-if="categoryObjectByLabel(expense.category)"
+                  :icon-name="categoryObjectByLabel(expense.category).icon"
+                  size="12"
+                />
                 <HomeIcon v-else />
               </template>
               <template #actions>
@@ -86,7 +95,7 @@
       :expenses="expenses"
     />
   </TheModal>
-  
+
   <FloatingBar
     :actions="actions"
     @expense="onAddExpense"
@@ -102,14 +111,16 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 
 import DollarIcon from '@/assets/icons/DollarIcon.vue';
 import HomeIcon from '@/assets/icons/HomeIcon.vue';
 import { useAuthStore } from '@/features/Login/stores/useAuthStore.ts';
-import { expenseCategories } from '@/features/Property/AddProperty/constants/expense.category.ts';
 import type { Expense } from '@/features/Property/AddProperty/types/expense.types.ts';
+import { refetchCategories, resolveCategoryLabels } from '@/features/Property/Categories/services/category.service.ts';
+import type { Category } from '@/features/Property/Categories/types/category.type.ts';
 import GroupedPropertyExpenses from '@/features/Property/ListProperties/components/GroupedPropertyExpenses.vue';
 import ListPropertyExpensesActions from '@/features/Property/ListProperties/components/ListPropertyExpensesActions.vue';
 import ListPropertyExpensesFooter from '@/features/Property/ListProperties/components/ListPropertyExpensesFooter.vue';
@@ -117,16 +128,36 @@ import ListPropertyExpensesHeader from '@/features/Property/ListProperties/compo
 import type { MessagesSchema } from '@/i18n/messages.ts';
 import FloatingBar from '@/shared/components/FloatingBar/FloatingBar.vue';
 import GroqAnalysis from '@/shared/components/Groq/GroqAnalysis.vue';
+import TheIcon from '@/shared/components/TheIcon/TheIcon.vue';
 import TheModal from '@/shared/components/TheModal/TheModal.vue';
 import TheSkeletonCircleContent from '@/shared/components/TheSkeleton/TheSkeletonCircleContent.vue';
 import TheStat from '@/shared/components/TheStat/TheStat.vue';
 import { useFormattedDate } from '@/shared/composables/useFormattedDate.ts';
 
+const route = useRoute()
 const authStore = useAuthStore();
 const activeIndex = ref('0')
 const { t } = useI18n<{ messages: MessagesSchema }>()
 const shouldAIAnalyse = ref(false)
+const allCategories = ref()
+const resolvedCategories = ref()
 
+const userId = computed(() => authStore.currentUser?.$id || '')
+const propertyId = computed(() => route.params.id as string)
+const categoryLoading = ref(false)
+const categoryObjectByLabel = (id: string) => {
+  if (resolvedCategories.value) {
+    const resolved = resolvedCategories.value.find((cat: Category) => cat.id === id)
+    if (resolved) return resolved;
+    return {
+      id: 'default',
+      label: 'Default',
+      isCustom: false,
+      icon: 'DocumentIcon'
+    }
+  }
+  return null
+}
 const actions = computed(() =>
   [
     authStore.isLoggedIn && { name: 'expense' },
@@ -142,14 +173,14 @@ const props = defineProps<{
 const emit = defineEmits(['on-add-expense', 'on-update-expense', 'on-delete-expense', 'on-edit-expense'])
 
 const totalAmountPendingPayment = computed(() =>
-    props.expenses.reduce((sum, expense) => sum + expense.amount, 0)
+  props.expenses.reduce((sum, expense) => sum + expense.amount, 0)
 )
 
 const totalAmountUnpaid = computed(() =>
-    props.expenses.reduce(
-        (sum, expense) => !expense.isPaid ? sum + expense.amount : sum,
-        0
-    )
+  props.expenses.reduce(
+      (sum, expense) => !expense.isPaid ? sum + expense.amount : sum,
+      0
+  )
 )
 
 const onUpdateExpense = (expense: Expense) => emit('on-update-expense', expense)
@@ -157,6 +188,13 @@ const onDeleteExpense = (id: string) => emit('on-delete-expense', id)
 const onEditExpense = (id: string) => emit('on-edit-expense', id)
 const onAddExpense = () => emit('on-add-expense')
 const onAIAnalysis = () => shouldAIAnalyse.value = true
+
+onMounted(async () => {
+  categoryLoading.value = true;
+  allCategories.value = await refetchCategories(propertyId.value)
+  resolvedCategories.value = await resolveCategoryLabels(userId.value, allCategories.value.categoryIds)
+  categoryLoading.value = false;
+})
 
 const paidStyles = (isPaid: boolean) => {
   if (isPaid) return 'border-l-[10px] border-l-success mt-4'
