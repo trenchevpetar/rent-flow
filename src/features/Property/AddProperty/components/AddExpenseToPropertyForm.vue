@@ -5,10 +5,6 @@
   >
     <TheSpinner :is-loading="isPending" />
     <fieldset class="fieldset w-full">
-      <pre>
-        {{ categories }}
-      </pre>
-
       <InputSelect
         v-model="formValues.category"
         :items="formattedCategories"
@@ -59,7 +55,6 @@ import { computed, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
 import { useAuthStore } from '@/features/Login/stores/useAuthStore.ts';
-import { expenseCategoriesForSelect } from '@/features/Property/AddProperty/constants/expense.category.ts';
 import { addExpenseToProperty } from '@/features/Property/AddProperty/services/expenses.service.ts';
 import type { UpdatableExpense } from '@/features/Property/AddProperty/types/expense.types.ts';
 import { refetchCategories, resolveCategoryLabels } from '@/features/Property/Categories/services/category.service.ts';
@@ -83,7 +78,6 @@ const formValues = ref<UpdatableExpense>({
   isPaid: false
 })
 const isLoading = ref(false);
-const expenses = computed(() => expenseCategoriesForSelect())
 const propertyId = computed(() => route.params.id as string)
 const userId = computed(() => authStore.currentUser?.$id || '')
 const categories = ref()
@@ -115,6 +109,9 @@ watch(
         label: category.label
       }))
     }
+  },
+  {
+    immediate: true
   }
 )
 
