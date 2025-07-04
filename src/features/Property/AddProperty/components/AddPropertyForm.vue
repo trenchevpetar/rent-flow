@@ -1,43 +1,29 @@
 <template>
-  <form
-    @submit.prevent="onAddProperty"
-    class="flex justify-center align-center items-center"
+  <BasicForm
+    submit-label="Add property"
+    cancel-label="Cancel"
+    @on-submit="onAddProperty"
+    @on-cancel="onCancel"
   >
-    <fieldset class="fieldset w-full">
-      <InputField
-        v-model="formValues.name"
-        label="Name"
-        placeholder="Name"
-      />
+    <InputField
+      v-model="formValues.name"
+      label="Name"
+      placeholder="Name"
+    />
 
-      <InputField
-        v-model="formValues.location"
-        label="Street name"
-        placeholder="Location"
-      />
+    <InputField
+      v-model="formValues.location"
+      label="Street name"
+      placeholder="Location"
+    />
 
-      <InputField
-        v-model="formValues.units"
-        type="number"
-        label="Units (How many units this property have?)"
-        placeholder="How many units this property have?"
-      />
-
-      <div class="flex w-full justify-end gap-2 mt-2">
-        <button
-          type="submit"
-          class="btn btn-primary"
-        >
-          Add property
-        </button>
-        <button
-          class="btn btn-soft"
-        >
-          Cancel
-        </button>
-      </div>
-    </fieldset>
-  </form>
+    <InputField
+      v-model="formValues.units"
+      type="number"
+      label="Units (How many units this property have?)"
+      placeholder="How many units this property have?"
+    />
+  </BasicForm>
   <TheSpinner :is-loading="isPending" />
 </template>
 
@@ -47,12 +33,13 @@ import { ref } from 'vue';
 
 import { addProperty } from '@/features/Property/AddProperty/services/property.service.ts';
 import type { Property } from '@/features/Property/AddProperty/types/property.types.ts';
+import BasicForm from '@/shared/components/BasicForm/BasicForm.vue';
 import InputField from '@/shared/components/InputField/InputField.vue';
 import TheSpinner from '@/shared/components/TheSpinner/TheSpinner.vue';
 
 const queryClient = useQueryClient();
 
-const emit = defineEmits(['on-add-property'])
+const emit = defineEmits(['on-add-property', 'on-cancel'])
 const formValues = ref<Property>({
   name: '',
   location: '',
@@ -71,4 +58,6 @@ const onAddProperty = () => {
   addPropertyMutated(formValues.value)
   emit('on-add-property')
 }
+
+const onCancel = () => emit('on-cancel')
 </script>

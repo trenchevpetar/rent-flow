@@ -1,6 +1,6 @@
 import type { Models } from 'appwrite';
 
-export type Incomes  = Models.Document & {
+export type Income  = Models.Document & {
   propertyId: string;
   unitId?: string;
   tenantId?: string;

@@ -1,14 +1,9 @@
 <template>
-  <h1 class="title text-2xl">
+  <h1 class="title text-2xl mb-4">
     {{ t('dashboard') }}
   </h1>
 
-  <div class="divider" />
-
   <ListProperties />
-
-  <div class="divider" />
-
   <ListIncomes />
 
   <FloatingBar
@@ -28,17 +23,23 @@
   </FloatingBar>
 
   <TheModal
-    title="Add Property"
-    v-model="isModalActive"
+    :title="t('properties.add')"
+    v-model="isPropertyModalActive"
   >
-    <AddPropertyForm @on-add-property="onPropertyAdded" />
+    <AddPropertyForm
+      @on-cancel="onCancelProperty"
+      @on-add-property="onPropertyAdded"
+    />
   </TheModal>
-  
+
   <TheModal
-    title="Add Income"
+    :title="t('income.add')"
     v-model="isIncomeModalActive"
   >
-    <AddIncomeForm @on-add-income="onIncomeAdded" />
+    <AddIncomeForm
+      @on-cancel="onCancelIncome"
+      @on-add-income="onIncomeAdded"
+    />
   </TheModal>
 </template>
 
@@ -56,12 +57,14 @@ import TheModal from '@/shared/components/TheModal/TheModal.vue';
 
 const { t } = useI18n<{ messages: MessagesSchema }>()
 
-const isModalActive = ref(false)
+const isPropertyModalActive = ref(false)
 const isIncomeModalActive = ref(false)
 
-const onAddProperty = () => isModalActive.value = true;
-const onPropertyAdded = () => isModalActive.value = false;
+const onAddProperty = () => isPropertyModalActive.value = true;
+const onPropertyAdded = () => isPropertyModalActive.value = false;
+const onCancelProperty = () => isPropertyModalActive.value = false;
 
 const onAddIncome = () => isIncomeModalActive.value = true;
 const onIncomeAdded = () => isIncomeModalActive.value = false;
+const onCancelIncome = () => isIncomeModalActive.value = false;
 </script>

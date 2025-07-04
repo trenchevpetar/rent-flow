@@ -180,8 +180,8 @@ const totalAmountPendingPayment = computed(() =>
 
 const totalAmountUnpaid = computed(() =>
   props.expenses.reduce(
-      (sum, expense) => !expense.isPaid ? sum + expense.amount : sum,
-      0
+    (sum, expense) => !expense.isPaid ? sum + expense.amount : sum,
+    0
   )
 )
 

@@ -27,7 +27,7 @@
       @on-edit-confirm="onEditConfirm"
     />
   </TheModal>
-  
+
   <TheModal
     :title="t('expenses.add')"
     v-model="isModalActive"
@@ -53,10 +53,13 @@ import {
 import type { Expense } from '@/features/Property/AddProperty/types/expense.types.ts';
 import ListPropertyExpenses from '@/features/Property/ListProperties/components/ListPropertyExpenses.vue';
 import type { MessagesSchema } from '@/i18n/messages.ts';
+import { useConfirmDialog } from '@/shared/components/ConfirmDialog/composables/useConfirmDialog.ts';
 import TheModal from '@/shared/components/TheModal/TheModal.vue';
 import TheSpinner from '@/shared/components/TheSpinner/TheSpinner.vue';
+import { useToastStore } from '@/shared/stores/useToastStore.ts';
 
 const route = useRoute()
+const toastStore = useToastStore()
 
 const { t } = useI18n<{ messages: MessagesSchema }>()
 const isModalActive = ref(false);
@@ -107,7 +110,22 @@ const onAddExpense = () => isModalActive.value = true
 const onExpenseAdded = () => isModalActive.value = false
 
 const onUpdateExpense = (expense: Expense) => updateMutation.mutate(expense)
-const onDeleteExpense = (id: string) => deleteMutation.mutate(id)
+const onDeleteExpense = async (id: string) => {
+
+  const isDeleted = await useConfirmDialog({
+    title: 'Confirm deletion',
+    message: 'Are you sure you want to delete this expense?',
+    onConfirm: async () => {
+      deleteMutation.mutate(id)
+    }
+  })
+
+  if (isDeleted) {
+    await toastStore.show('Deleted successfully', 'success')
+  } else {
+    await toastStore.show('Deletion failed, try again later', 'warning')
+  }
+}
 const onEditExpense = (id: string) => {
   editableExpense.value = expenses.value?.find((expense: Expense) => expense.$id === id)
   isEditModalActive.value = true;

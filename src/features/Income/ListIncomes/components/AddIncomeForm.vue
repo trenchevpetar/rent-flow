@@ -1,38 +1,29 @@
 <template>
-  <form
-    @submit.prevent="onAddIncome"
-    class="flex justify-center align-center items-center"
+  <BasicForm
+    submit-label="Add Income"
+    cancel-label="Cancel"
+    @on-submit="onAddIncome"
+    @on-cancel="onCancel"
   >
-    <fieldset class="fieldset w-full">
-      <InputField
-        v-model="formValues.type"
-        label="Type"
-        placeholder="Type of income"
-      />
-      
-      <InputField
-        v-model="formValues.amount"
-        label="Amount"
-        placeholder="Amount"
-        type="number"
-      />
+    <InputField
+      v-model="formValues.type"
+      label="Type"
+      placeholder="Type of income"
+    />
 
-      <InputDate
-        label="Date paid"
-        v-model="formValues.datePaid"
-        type="month"
-      />
+    <InputField
+      v-model="formValues.amount"
+      label="Amount"
+      placeholder="Amount"
+      type="number"
+    />
 
-      <div class="flex w-full justify-end gap-2 mt-2">
-        <button
-          type="submit"
-          class="btn btn-primary"
-        >
-          Add income
-        </button>
-      </div>
-    </fieldset>
-  </form>
+    <InputDate
+      label="Date paid"
+      v-model="formValues.datePaid"
+      type="month"
+    />
+  </BasicForm>
   <TheSpinner :is-loading="isPending" />
 </template>
 
@@ -41,14 +32,15 @@ import { useMutation, useQueryClient } from '@tanstack/vue-query';
 import { ref } from 'vue';
 
 import { addIncome } from '@/features/Income/ListIncomes/services/incomes.service.ts';
-import type { UpdatableIncome } from '@/features/Income/ListIncomes/types/incomes.types.ts';
+import type { UpdatableIncome } from '@/features/Income/ListIncomes/types/income.type.ts';
+import BasicForm from '@/shared/components/BasicForm/BasicForm.vue';
 import InputDate from '@/shared/components/InputDate/InputDate.vue';
 import InputField from '@/shared/components/InputField/InputField.vue';
 import TheSpinner from '@/shared/components/TheSpinner/TheSpinner.vue';
 
 const queryClient = useQueryClient();
 
-const emit = defineEmits(['on-add-income'])
+const emit = defineEmits(['on-add-income', 'on-cancel'])
 const formValues = ref<UpdatableIncome>({
   propertyId: '',
   type: '',
@@ -67,4 +59,5 @@ const onAddIncome = () => {
   addIncomeMutation(formValues.value)
   emit('on-add-income')
 }
+const onCancel = () => emit('on-cancel')
 </script>
