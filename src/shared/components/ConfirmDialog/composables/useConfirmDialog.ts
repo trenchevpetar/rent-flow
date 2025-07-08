@@ -3,10 +3,10 @@ import { createApp, h } from 'vue'
 import ConfirmDialog from '@/shared/components/ConfirmDialog/ConfirmDialog.vue';
 
 export function useConfirmDialog ({
-     title,
-     message,
-     onConfirm
-   }: {
+   title,
+   message,
+   onConfirm
+}: {
   title: string
   message: string
   onConfirm: () => Promise<void>

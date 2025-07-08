@@ -34,7 +34,6 @@ export function useGroupedExpenses (expenses: Ref<Expense[]>) {
       return result
     }, {} as Record<string, GroupedExpense>)
 
-    // Sort months ascending (e.g., "2024-01", "2024-02", ...)
     return Object.keys(raw)
       .sort((a, b) => a.localeCompare(b))
       .reduce((acc, key) => {
