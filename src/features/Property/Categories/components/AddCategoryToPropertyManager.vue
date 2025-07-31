@@ -17,10 +17,12 @@
       <button
         v-for="cat in allCategories"
         :key="cat.id"
-        class="btn btn-sm transition-all whitespace-nowrap"
+        class="btn btn-sm btn-outline transition-all whitespace-nowrap"
+        :style="{
+          backgroundColor: cat.color,
+          borderWidth: isSelected(cat) ? '2px' : ''
+        }"
         :class="{
-          'btn-outline': !isSelected(cat),
-          'btn-accent': isSelected(cat),
           'opacity-50 cursor-not-allowed': isLoading
         }"
         @click="handleSelect(cat)"

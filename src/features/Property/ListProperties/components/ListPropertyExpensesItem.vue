@@ -5,11 +5,7 @@
     :class="paidStyles(expense.isPaid)"
   >
     <template #title>
-      <div
-        class="badge"
-        :class="{ 'badge-warning': !category.color }"
-        :style="{ color: category.color }"
-      >
+      <div class="badge badge-warning badge-dash">
         {{ category.label }}
       </div>
     </template>

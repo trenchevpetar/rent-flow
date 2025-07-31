@@ -22,15 +22,36 @@
   />
 
   <TheModal
-    title="Pick icon for this category"
+    title="Pick color for this category"
     v-model="isColorModalActive"
+  >
+    <TheSpinner :is-loading="isPending" />
+    <TwitterPicker
+      triangle="hide"
+      width="100%"
+      v-model="selectedColor"
+      :preset-colors="colors"
+    />
+    <template #footer>
+      <button
+        class="btn btn-primary"
+        @click="onCategorySave"
+      >
+        Save
+      </button>
+    </template>
+  </TheModal>
+
+  <TheModal
+    title="Pick icon for this category"
+    v-model="isIconModalActive"
   >
     <TheSpinner :is-loading="isPending" />
     <CategoryIconPicker @select="onIconSelect" />
     <template #footer>
       <button
         class="btn btn-primary"
-        @click="onIconSave"
+        @click="onCategorySave"
       >
         Save
       </button>
@@ -40,7 +61,8 @@
 
 <script setup lang="ts">
 import { useMutation, useQueryClient } from '@tanstack/vue-query'
-import { ref, computed } from 'vue'
+import { ref, computed, defineModel } from 'vue'
+import { TwitterPicker } from 'vue-color';
 import { useRoute } from 'vue-router'
 
 import { useAuthStore } from '@/features/Login/stores/useAuthStore.ts'
@@ -59,11 +81,33 @@ const authStore = useAuthStore()
 const userId = computed(() => authStore.currentUser?.$id ?? '')
 const propertyId = computed(() => route.params.id as string)
 const isPending = computed(() => updateCategoryMutation.isPending.value)
+const colors = computed(() => [
+  '#0d0d15',
+  '#0b0c12',
+  '#090a0f',
+  '#8d28a2',
+  '#d83e5b',
+  '#f5d1da',
+  '#64cdd0',
+  '#385760',
+  '#131216',
+  '#66aee4',
+  '#354d70',
+  '#63c883',
+  '#3f725a',
+  '#e8b84f',
+  '#786331',
+  '#dd5d4c',
+  '#4f3029'
+])
+
 
 const { property } = useCachedPropertyById('ownerId', userId.value, propertyId.value)
 
 // Category modal state
+const isIconModalActive = ref(false)
 const isColorModalActive = ref(false)
+const selectedColor = defineModel({ default: '#64cdd0', type: String })
 const currentCategory = ref<Category>({
   id: '',
   label: '',
@@ -86,7 +130,7 @@ const updateCategoryMutation = useMutation({
 
     queryClient.invalidateQueries({ queryKey: ['property-categories', propertyId.value], })
 
-    isColorModalActive.value = false
+    isIconModalActive.value = false
   },
 
   onError: (err) => {
@@ -95,11 +139,14 @@ const updateCategoryMutation = useMutation({
 })
 
 // Handlers
-const onAddColor = () => {}
+const onAddColor = (category: Category) => {
+  currentCategory.value = category
+  isColorModalActive.value = true;
+}
 
 const onAddIcon = (category: Category) => {
   currentCategory.value = category
-  isColorModalActive.value = true
+  isIconModalActive.value = true
 }
 
 const onIconSelect = (name: string) => {
@@ -109,15 +156,17 @@ const onIconSelect = (name: string) => {
   }
 }
 
-const onIconSave = async () => {
+const onCategorySave = async () => {
   if (!currentCategory.value?.id) return
+
+  console.log(currentCategory.value);
 
   updateCategoryMutation.mutate({
     id: currentCategory.value.id,
     data: {
       label: currentCategory.value.label,
       icon: currentCategory.value.icon,
-      color: currentCategory.value.color || '',
+      color: selectedColor.value || currentCategory.value.color,
     },
   })
 }

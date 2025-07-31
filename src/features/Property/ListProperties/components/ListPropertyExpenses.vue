@@ -71,7 +71,7 @@
   </FloatingBar>
 
   <ExpensesChart
-    v-if="expenses && !categoryLoading"
+    v-if="expenses && expenses.length && !categoryLoading"
     :expenses="expenses"
     :resolved-categories="resolvedCategories"
   />

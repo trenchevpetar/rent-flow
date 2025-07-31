@@ -19,10 +19,17 @@
         :responsive="{ sm: 12, md: 6, lg: 6 }"
       >
         <TheCard>
-          <TheStat
-            :title="income.type.toUpperCase()"
-            :value="income.amount"
-          >
+          <TheStat :value="income.amount">
+            <template #title>
+              <div class="flex gap-2">
+                <div class="badge badge-info badge-dash">
+                  TYPE: {{ income.type }}
+                </div>
+                <div class="badge badge-success badge-dash">
+                  RECEIVED: {{ useFormattedDate(income.datePaid) }}
+                </div>
+              </div>
+            </template>
             <template #image>
               <CreditCardIcon />
             </template>
@@ -57,6 +64,7 @@ import { useConfirmDialog } from '@/shared/components/ConfirmDialog/composables/
 import TheCard from '@/shared/components/TheCard/TheCard.vue';
 import TheSkeletonCircleContent from '@/shared/components/TheSkeleton/TheSkeletonCircleContent.vue';
 import TheStat from '@/shared/components/TheStat/TheStat.vue';
+import { useFormattedDate } from '@/shared/composables/useFormattedDate.ts';
 import { useToastStore } from '@/shared/stores/useToastStore.ts';
 
 const toastStore = useToastStore()

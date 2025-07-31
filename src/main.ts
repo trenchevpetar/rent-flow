@@ -3,6 +3,7 @@ import { createApp } from 'vue'
 
 import App from '@/App.vue'
 import '@/style.css'
+import 'vue-color/style.css'
 import { CONFIG } from '@/config/config.ts';
 import { useAuthStore } from '@/features/Login/stores/useAuthStore.ts';
 import i18n from '@/i18n'

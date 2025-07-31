@@ -73,8 +73,8 @@ import {
 } from 'echarts/components'
 import { use } from 'echarts/core'
 import { CanvasRenderer } from 'echarts/renderers'
-import { computed, ref, provide } from 'vue'
-import VChart, { THEME_KEY } from 'vue-echarts'
+import { computed, ref } from 'vue'
+import VChart from 'vue-echarts'
 
 import type { Expense } from '@/features/Property/AddProperty/types/expense.types.ts'
 import type { Category } from '@/features/Property/Categories/types/category.type.ts';
@@ -82,8 +82,6 @@ import { useFormatAmount } from '@/shared/composables/useFormatAmount.ts'
 
 const { format } = useFormatAmount()
 const props = defineProps<{ expenses: Expense[], resolvedCategories: Category[] }>()
-
-provide(THEME_KEY, 'dark')
 
 use([
   TitleComponent,
@@ -351,40 +349,9 @@ const currentChartOption = computed(() => {
 
 <style scoped>
 .expense-dashboard {
-  background: #1a1a1a;
-  border-radius: 12px;
-  padding: 20px;
-  color: #fff;
-}
-.tab-navigation {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 20px;
-  border-bottom: 2px solid #333;
-  padding-bottom: 10px;
-}
-.tab-button {
-  background: #2d3748;
-  color: #a0aec0;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-weight: 500;
-}
-.tab-button:hover {
-  background: #4a5568;
-  color: #fff;
-}
-.tab-button.active {
-  background: #3182ce;
-  color: #fff;
-}
-.chart-container {
-  margin-bottom: 20px;
+  margin: 20px 0;
 }
 .chart {
-  height: 400px;
+  min-height: 60vh;
 }
 </style>
